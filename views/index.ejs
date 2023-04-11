@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+<head>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+  <h1> Birdwatching Sightings </h1>
+  <label for="sort-select">Sort by:</label>
+  <select name="sort" id="sort-select">
+    <option value="Recent">Recent</option> //date/time seen
+    <option value="Status">Status</option> //identification
+  </select>
+  <form action="/add" method="get">
+    <button>+New Sighting!</button>
+  </form>
+</body>
 </html>
