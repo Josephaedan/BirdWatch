@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
 
-var mongoDB = process.env.MONGODB_URI || "mongodb://localhost:27017/animals";
+var mongoDB = process.env.MONGO_URL + ":" + process.env.MONGO_PORT;
 
 mongoose.Promise = global.Promise;
 
@@ -12,7 +12,7 @@ try {
     useUnifiedTopology: true,
     checkServerIdentity: false,
   });
-  console.log("connection to mongodb worked!");
+  console.log("connection to mongodb worked! ", mongoDB);
 } catch (e) {
   console.log("error in db connection: " + e.message);
 }
