@@ -6,10 +6,10 @@ exports.init = function(io) {
       /**
        * create or joins a room
        */
-      socket.on('create or join', function (room, userId) {
+      socket.on('create or join', function (room) {
         socket.join(room);
         // Retrieve past messages
-        io.sockets.to(room).emit('joined', room, userId);
+        io.sockets.to(room).emit('joined', room);
       });
 
       socket.on('chat', function (room, userId, chatText) {

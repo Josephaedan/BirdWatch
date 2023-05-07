@@ -73,7 +73,7 @@ exports.updateIdentification = async (req, res) => {
 
 // Add a comment to a sighting
 exports.addComment = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params;    // id is type string
   const { userNickname, text } = req.body;
   try {
     const sighting = await Sighting.findById(id);
