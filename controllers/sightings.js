@@ -1,8 +1,7 @@
 const Sighting = require("../models/sightings");
 
-// Get all sightings sorted by date/time seen and identification status
+// Get all sightings sorted by date/time seen and identification status (GET /sightings)
 exports.getSightings = async (req, res) => {
-  console.log("getSightings");
   try {
     const sightings = await Sighting.find().sort({
       date: "desc",
@@ -14,26 +13,51 @@ exports.getSightings = async (req, res) => {
   }
 };
 
-// Add a new sighting
+// Add a new sighting (POST /sightings)
 exports.addSighting = async (req, res) => {
-  const { date, location, description, userNickname } = req.body;
+  const {
+    date,
+    latitude,
+    longitude,
+    description,
+    userNickname,
+    identification,
+  } = req.body;
   try {
     const sighting = new Sighting({
       date,
-      location,
+      location: {
+        type: "Point",
+        coordinates: [longitude, latitude],
+      },
       description,
-      identification: { status: "unknown" },
+      identification: identification ?? { status: "unknown" },
       userNickname,
       comments: [],
     });
     const newSighting = await sighting.save();
     res.status(201).json(newSighting);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    console.log(err.message);
+    res.render("add", { error: err.message, sighting: req.body });
   }
 };
 
-// Update the identification of a sighting
+// Get a single sighting (GET /sightings/:id)
+exports.getSighting = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const sighting = await Sighting.findById(id);
+    if (!sighting) {
+      return res.status(404).json({ message: "Sighting not found" });
+    }
+    res.status(200).json(sighting);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// Update the identification of a sighting (PUT /sightings/:id/identification)
 exports.updateIdentification = async (req, res) => {
   const { id } = req.params;
   const {
@@ -71,7 +95,7 @@ exports.updateIdentification = async (req, res) => {
   }
 };
 
-// Add a comment to a sighting
+// Add a comment to a sighting (POST /sightings/:id/comments)
 exports.addComment = async (req, res) => {
   const { id } = req.params;
   const { userNickname, text } = req.body;
@@ -88,7 +112,8 @@ exports.addComment = async (req, res) => {
   }
 };
 
-// Render the sightings page
+// Render the sightings page (GET /sightings)
+// TODO: Implement sightings view
 exports.renderSightings = async (req, res) => {
   const sightings = await Sighting.find().sort({
     date: "desc",
