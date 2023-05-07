@@ -8,13 +8,12 @@ router.get('/', function(req, res, next) {
 });
 
 /* GET Sightings */
-router.get("/", function (req, res, next) {
-    sightingController.getSightings(req, res);
+router.get("/:id", function (req, res, next) {
+    sightingController.getSightingComments(req, res);
 });
 
 /* POST Comment */
-router.post("/comment", function (req, res, next) {
-    req.params.id = "6457bf3360bd96a70994900b";  // TODO: CHANGE TO BE DYNAMIC
+router.post("/:id", function (req, res, next) {
     console.log("req.body: ", req.body);
     console.log("req.params: ", req.params);
     sightingController.addComment(req, res);

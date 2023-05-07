@@ -1,38 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title><%= title %></title>
+    <title>Comments</title>
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
     <link rel='stylesheet' href='/stylesheets/style.css'/>
     <script src="/javascripts/chat.js"></script>
 </head>
 <body onload="init()">
-<h1><%= title %></h1>
-<!--<div id="initial_form" style="display: block">-->
-<!--    <p>Please insert the id of the Room you want to Join, if you do not have a room id, click Generate Room</p>-->
-<!--    <form onsubmit="return false;">-->
-<!--        <p><label for="name"> Your name </label>-->
-<!--            <input type="text" id="name" name="name">-->
-<!--        </p>-->
-<!--        <p>-->
-<!--            <label for="roomNo"> Your room </label>-->
-<!--            <input type="text" id="roomNo" name="roomNo">-->
-<!--            <button id="roomNoGenerator" onclick="generateRoom()">Generate Room</button>-->
-<!--        </p>-->
-<!--        <button id="connect" onclick="connectToRoom()">Connect</button>-->
-<!--    </form>-->
-<!--</div>-->
+<h1>Comments</h1>
 <div id="chat_interface">
-    <div id="history" class="boxed"></div>
+    <div id="history" class="boxed"><%= comments %></div>
     <div id="input" class="bottom boxed">
 <!--        <form onsubmit="return false;" style="width: 100%" method="POST" action="/chat">-->
-        <form style="width: 100%" method="POST" action="/chat/comment">
+<!--        Action set on load in init -->
+        <form id="chat-form" style="width: 100%" method="POST">
             <p>
                 <label for="userNickname"> User Nickname: </label>
-                <input type="text" id="userNickname" name="userNickname" style="width: 80%">
+                <input type="text" id="userNickname" name="userNickname" style="width: 80%; float:right">
+                <br>
                 <label for="text"> Comment: </label>
-                <input type="text" id="text" name="text" style="width: 80%">
-                <input id="chat_send" type="submit" onsubmit="sendChatText()">
+                <input type="text" id="text" name="text" style="width: 80%; float:right">
+                <br><br>
+                <input id="chat_send" type="submit">
 <!--                <button id="chat_send" onclick="sendChatText()" type="submit">Send</button>-->
             </p>
         </form>

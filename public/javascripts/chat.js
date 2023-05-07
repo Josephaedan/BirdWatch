@@ -13,12 +13,6 @@ function init() {
     const sightingID = new URLSearchParams(queryString)
     socket.emit('create or join', sightingID);
 
-    // Access previous history from database
-    let history = document.getElementById('history');
-    let paragraph = document.createElement('p');
-    paragraph.innerHTML = text;
-    history.appendChild(paragraph);
-
     // called when a message is received
     socket.on('chat', function (room, userId, chatText) {
         let who = userId
@@ -46,6 +40,7 @@ function sendChatText() {
     console.log("Text was sent on chat")
     let chatText = document.getElementById('chat_input').value;
     socket.emit('chat', roomNo, name, chatText);
+    window.location.reload();
 }
 
 
@@ -60,5 +55,3 @@ function writeOnHistory(text) {
     history.appendChild(paragraph);
     document.getElementById('chat_input').value = '';
 }
-
-
