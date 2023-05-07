@@ -1,6 +1,8 @@
-﻿# BirdWatch - A Bird Sighting Progressive Web Application
+# BirdWatch - A Bird Sighting Progressive Web Application
 
-This is a progressive web application for bird watchers to record and view bird sightings, as well as to help with bird identification. The application allows users to add new sightings, view a sorted list of all sightings, and comment on identification suggestions.
+**:information_source: Psst! BirdWatch is currently hosted live with a hosted MongoDB database! Check it out [here](https://birdwatch.up.railway.app/)!**
+
+BirdWatch is a progressive web application for bird watchers to record and view bird sightings, as well as to help with bird identification. The application allows users to add new sightings, view a sorted list of all sightings, and comment on identification suggestions.
 
 BirdWatch is developed for an assignment as part of [COM3504: The Intelligent Web](http://www.dcs.shef.ac.uk/intranet/teaching/public/modules/level3/com3504.html) Spring Semester 2022/2023 taught by The University of Sheffield. It is worked on by:
 
