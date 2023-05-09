@@ -1,6 +1,25 @@
 const express = require("express");
 const router = express.Router();
+var bodyParser = require("body-parser");
 const sightingController = require("../controllers/sightings");
+const multer = require("multer");
+
+// Initialise multer and set the destination for uploaded files
+// Code taken from Lab 'Week 11 Mongo - Upload Images 2 2'
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "public/images/uploads/");
+  },
+  filename: function (req, file, cb) {
+    // Modify the filename to be the current timestamp
+    // This ensures that each filename is unique
+    var original = file.originalname;
+    var file_extension = original.split(".");
+    filename = Date.now() + "." + file_extension[file_extension.length - 1];
+    cb(null, filename);
+  },
+});
+var upload = multer({ storage: storage });
 
 // GET /sightings - get all sightings sorted by date/time seen and identification status
 router.get("/", function (req, res, next) {
@@ -13,7 +32,7 @@ router.get("/add", function (req, res, next) {
 });
 
 // POST /sightings - add a new sighting
-router.post("/", function (req, res, next) {
+router.post("/add", upload.single("image"), async function (req, res, next) {
   sightingController.addSighting(req, res);
 });
 

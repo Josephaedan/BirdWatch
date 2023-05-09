@@ -6,12 +6,11 @@
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
   <body>
-    <!-- <h1>Add New Sighting!</h1> -->
     <nav class="navbar navbar-light bg-light">
       <a class="navbar-brand" href="#">Add New Sighting!</a>
     </nav>
     <br>
-    <form action="/sightings" method="POST">
+    <form enctype="multipart/form-data" action="/sightings/add" method="POST">
       <label for="userNickName">Username:</label>
       <input type="text" id="userNickname" name="userNickname" required />
       <label for="image">Image:</label>
@@ -20,7 +19,6 @@
         id="image"
         name="image"
         accept="image/*"
-        onchange="loadFile(this)"
       />
       <br><br>
       <div id="image-show"></div>
@@ -31,9 +29,9 @@
       <input type="text" id="description" name="description" required/>
       <br><br>
       <label for="latitude">Latitude:</label>
-      <input type="text" id="latitude" name="latitude" required readonly />
+      <input type="number" id="latitude" name="latitude" required readonly />
       <label for="longitude">Longitude:</label>
-      <input type="text" id="longitude" name="longitude" required readonly />
+      <input type="number" id="longitude" name="longitude" required readonly />
       <button type="button" id="locationButton">Get Location</button>
       <br><br>
       <button type="submit" class="btn btn-outline-success">Submit</button>
