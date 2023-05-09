@@ -9,21 +9,17 @@ let socket = io();
  */
 function init() {
     console.log("Chat room loaded!")
-    console.log(socket)
 
     // Connect to the room as shown in the URL
-    // const queryString = window.location.search;
-    // const sightingID = new URLSearchParams(queryString)
-    const sightingID = window.location.pathname.replace("/chat/", "");
+    const sightingID = window.location.pathname.replace("/sightings/", "");
     console.log("Sighting ID: ", sightingID)
     socket.emit('create or join', sightingID); // Connects to room
 
     // called when a message is received
     socket.on('chat', function (room, userId, chatText) {
-        writeOnHistory('<b>' + userId + ':</b> ' + chatText);
+        writeOnHistory('<b>' + userId + ' :</b> ' + chatText);
     });
 }
-
 
 /**
  * called when the Send button is pressed. It gets the text to send from the interface
@@ -33,7 +29,7 @@ function init() {
 function sendChatText() {
     console.log("Sending chat message...");
 
-    const sightingID = window.location.pathname.replace("/chat/", "");
+    const sightingID = window.location.pathname.replace("/sightings/", "");
     let userNickname = document.getElementById('userNickname').value;
     let chatText = document.getElementById('text').value;
 
@@ -45,7 +41,7 @@ function sendChatText() {
     document.getElementById('chatform').method = 'POST';
 
     // Submit post request
-    fetch(window.location, {
+    fetch(window.location + "/comments", {
         method: 'POST', // Specify the HTTP method
         headers: {'Content-Type': 'application/json'},
         body:  JSON.stringify({
@@ -66,9 +62,10 @@ function sendChatText() {
  * @param text: the text to append
  */
 function writeOnHistory(text) {
-    let history = document.getElementById('history');
-    let paragraph = document.createElement('p');
-    paragraph.innerHTML = text;
-    history.appendChild(paragraph);
-    document.getElementById('chat_input').value = '';
+    let chatHistory = document.getElementById('chatHistory');
+    let listItem = document.createElement('li');
+    listItem.className = "list-group-item"
+    listItem.innerHTML = new Date().toLocaleString("en-GB") + "<br>" + text;
+    chatHistory.appendChild(listItem);
+    document.getElementById('text').value = '';
 }
