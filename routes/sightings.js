@@ -17,7 +17,7 @@ router.post("/", function (req, res, next) {
   sightingController.addSighting(req, res);
 });
 
-// GET /sighitngs/:id - get a single sighting
+// GET /sightngs/:id - get a single sighting
 router.get("/:id", function (req, res, next) {
   sightingController.getSighting(req, res);
 });

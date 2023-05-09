@@ -1,17 +1,55 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 </head>
 <body>
-  <h1> Birdwatching Sightings </h1>
-  <label for="sort-select">Sort by:</label>
-  <select name="sort" id="sort-select">
-    <option value="Recent">Recent</option> //date/time seen
-    <option value="Status">Status</option> //identification
-  </select>
-  <form action="sightings/add" method="get">
-    <button>+New Sighting!</button>
-  </form>
+  <nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand">Birdwatch Sightings</a>
+    <button onclick="location.href='/add';" type="button" class="btn btn-outline-success">+ New sighting!</button>
+  </nav>
+  <div class="dropdown">
+    <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenu" data-bs-toggle="dropdown" aria-expanded="false">
+      Sort by:
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+      <li><button class="dropdown-item" type="button">Recent</button></li>
+      <li><button class="dropdown-item" type="button">Status</button></li>
+    </ul>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Date</th>
+        <th scope="col">Description</th>
+        <th scope="col">Identification</th>
+        <th scope="col">User ID</th>
+        <th scope="col">Comments</th> <!--number of comments-->
+        <th scope="col">Created At</th>
+        <th scope="col">Last updated</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for (var k = 0; k < sightings.length; ++k) {
+        var data = sightings[k]; %>
+        <tr>
+          <th scope="row"><%= k+1 %></th>
+          <td><%= data.date %></td>
+          <td><%= data.description %></td>
+          <td><%= data.identification.status %></td>
+          <td><%= data.identification.suggestedBy %></td>
+          <td><%= data.comments.length %></td>
+          <td><%= data.createdAt %></td>
+          <td><%= data.updatedAt %></td>
+          <td><button onclick="location.href='/sightings/<%= data._id %>';" type="button" class="btn btn-outline-success">+</button></td>
+        </tr>
+      <% } %> 
+    </tbody>
+  </table>
 </body>
 </html>

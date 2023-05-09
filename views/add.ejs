@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
-
   <body>
-    <h1>Add New Sighting!</h1>
+    <!-- <h1>Add New Sighting!</h1> -->
+    <nav class="navbar navbar-light bg-light">
+      <a class="navbar-brand" href="#">Add New Sighting!</a>
+    </nav>
+    <br>
     <form action="/sightings" method="POST">
       <label for="userNickName">Username:</label>
       <input type="text" id="userNickname" name="userNickname" required />
@@ -17,16 +22,21 @@
         accept="image/*"
         onchange="loadFile(this)"
       />
+      <br><br>
+      <div id="image-show"></div>
+      <br>
       <label for="date">Date/Time:</label>
       <input type="datetime-local" id="date" name="date" required />
       <label for="description">Description:</label>
       <input type="text" id="description" name="description" required/>
+      <br><br>
       <label for="latitude">Latitude:</label>
       <input type="text" id="latitude" name="latitude" required readonly />
       <label for="longitude">Longitude:</label>
       <input type="text" id="longitude" name="longitude" required readonly />
       <button type="button" id="locationButton">Get Location</button>
-      <input type="submit" />
+      <br><br>
+      <button type="submit" class="btn btn-outline-success">Submit</button>
     </form>
     <% if (typeof error != "undefined") { %>
      <p>There was an error submitting your sighting: 
@@ -47,9 +57,23 @@
         alert("Geolocation is not supported by this browser.");
       }
     }
+
     function showPosition(position) {
       latitude.value = position.coords.latitude;
       longitude.value = position.coords.longitude;
+    }
+
+    function loadFile(input) {
+      var file = input.files[0];
+      var newImage = document.createElement("img");
+      newImage.setAttribute("class", 'img');
+      newImage.src = URL.createObjectURL(file);
+      newImage.style.width = "70%";
+      newImage.style.height = "70%";
+      newImage.style.visibility = "visible";
+      newImage.style.objectFit = "contain";
+      var container = document.getElementById('image-show');
+      container.appendChild(newImage);
     }
   </script>
 </html>
