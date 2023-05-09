@@ -8,45 +8,62 @@ let socket = io();
  * plus the associated actions
  */
 function init() {
+    console.log("Chat room loaded!")
+    console.log(socket)
+
     // Connect to the room as shown in the URL
-    const queryString = window.location.search;
-    const sightingID = new URLSearchParams(queryString)
-    socket.emit('create or join', sightingID);
+    // const queryString = window.location.search;
+    // const sightingID = new URLSearchParams(queryString)
+    const sightingID = window.location.pathname.replace("/chat/", "");
+    console.log("Sighting ID: ", sightingID)
+    socket.emit('create or join', sightingID); // Connects to room
 
     // called when a message is received
     socket.on('chat', function (room, userId, chatText) {
-        let who = userId
-        if (userId === name) who = 'Me';
-        writeOnHistory('<b>' + who + ':</b> ' + chatText);
+        writeOnHistory('<b>' + userId + ':</b> ' + chatText);
     });
-
 }
 
-// /**
-//  * called to generate a random room number
-//  * This is a simplification. A real world implementation would ask the server to generate a unique room number
-//  * so to make sure that the room number is not accidentally repeated across uses
-//  */
-// function generateRoom() {
-//     roomNo = Math.round(Math.random() * 10000);
-//     document.getElementById('roomNo').value = 'R' + roomNo;
-// }
 
 /**
  * called when the Send button is pressed. It gets the text to send from the interface
- * and sends the message via  socket
+ * and sends the message via socket
  */
-function sendChatText() {
-    console.log("Text was sent on chat")
-    let chatText = document.getElementById('chat_input').value;
-    socket.emit('chat', roomNo, name, chatText);
-    window.location.reload();
-}
 
+function sendChatText() {
+    console.log("Sending chat message...");
+
+    const sightingID = window.location.pathname.replace("/chat/", "");
+    let userNickname = document.getElementById('userNickname').value;
+    let chatText = document.getElementById('text').value;
+
+    console.log("User: ", userNickname);
+    console.log("Chat text: ", chatText);
+    console.log("SightingID: ", sightingID);
+
+    socket.emit('chat', sightingID, userNickname, chatText);
+    document.getElementById('chatform').method = 'POST';
+
+    // Submit post request
+    fetch(window.location, {
+        method: 'POST', // Specify the HTTP method
+        headers: {'Content-Type': 'application/json'},
+        body:  JSON.stringify({
+            userNickname: userNickname,
+            text: chatText,
+        })
+    })
+
+    // Clear input fields for username and text
+    // document.getElementById('userNickname').value = '';
+    document.getElementById('text').value = '';
+
+    return false;
+}
 
 /**
  * it appends the given html text to the history div
- * @param text: teh text to append
+ * @param text: the text to append
  */
 function writeOnHistory(text) {
     let history = document.getElementById('history');

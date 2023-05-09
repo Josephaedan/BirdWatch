@@ -7,13 +7,15 @@ exports.init = function(io) {
        * create or joins a room
        */
       socket.on('create or join', function (room) {
+        console.log(room)
+        console.log("Created/Joined ", room)
         socket.join(room);
         // Retrieve past messages
         io.sockets.to(room).emit('joined', room);
       });
 
       socket.on('chat', function (room, userId, chatText) {
-        // Send message to database
+        console.log(userId, "sent a message to room: ", room)
         io.sockets.to(room).emit('chat', room, userId, chatText);
       });
 
