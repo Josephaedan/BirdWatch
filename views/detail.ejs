@@ -11,7 +11,7 @@
     <nav class="navbar navbar-light bg-light">
         <a class="navbar-brand">Birdwatch Sightings</a>
     </nav>
-    <div class="container">
+    <div class="container mh-100">
         <div class="row">
             <div class="col-sm">
                 <label for="name">Sighting: </label>
@@ -26,7 +26,8 @@
                 <br>
                 <text id="location"><%= sighting.location%></text>
             </div>
-            <div class="col-sm">
+
+            <div class="col-sm" style="overflow-y:scroll; max-height: 50%">
                 <label for="chat">Chat</label>
                 <br>
                 <text id="chat"></text>

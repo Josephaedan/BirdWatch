@@ -16,14 +16,7 @@ exports.getSightings = async (req, res) => {
 
 // Add a new sighting (POST /sightings)
 exports.addSighting = async (req, res) => {
-  const {
-    date,
-    latitude,
-    longitude,
-    description,
-    userNickname,
-    identification,
-  } = req.body;
+  const { date, latitude, longitude, description, userNickname } = req.body;
   try {
     const sighting = new Sighting({
       date,
@@ -32,12 +25,14 @@ exports.addSighting = async (req, res) => {
         coordinates: [longitude, latitude],
       },
       description,
-      identification: identification ?? { status: "unknown" },
+      identification: { status: "unknown", photoUrl: imagePath },
       userNickname,
       comments: [],
     });
     const newSighting = await sighting.save();
     res.status(201).json(newSighting);
+    // TODO: Implement new sighting page to redirect to
+    // res.status(201).redirect(`/sightings/${newSighting._id}`);
   } catch (err) {
     console.log(err.message);
     res.render("add", { error: err.message, sighting: req.body });
