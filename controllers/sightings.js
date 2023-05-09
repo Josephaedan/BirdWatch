@@ -8,6 +8,7 @@ exports.getSightings = async (req, res) => {
       "identification.status": "asc",
     });
     res.json(sightings);
+    // res.render('index.html', {dataList});
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
