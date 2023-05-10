@@ -55,6 +55,22 @@ exports.getSighting = async (req, res) => {
   }
 };
 
+
+// Get a single sighting's comments (GET /sightings/:id)
+exports.getSightingComments = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const sighting = await Sighting.findById(id);
+    if (!sighting) {
+      return res.status(404).json({ message: "Sighting not found" });
+    }
+    const sightingComments = sighting.comments;
+    res.render("chat", {comments: sightingComments});
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 // Update the identification of a sighting (PUT /sightings/:id/identification)
 exports.updateIdentification = async (req, res) => {
   const { id } = req.params;
@@ -95,7 +111,7 @@ exports.updateIdentification = async (req, res) => {
 
 // Add a comment to a sighting (POST /sightings/:id/comments)
 exports.addComment = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params;    // id is type string
   const { userNickname, text } = req.body;
   try {
     const sighting = await Sighting.findById(id);

@@ -21,37 +21,43 @@
       <li><button class="dropdown-item" type="button"">Status</button></li>
     </ul>
   </div>
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Date</th>
-        <th scope="col">Description</th>
-        <th scope="col">Identification</th>
-        <th scope="col">User ID</th>
-        <th scope="col">Comments</th> <!--number of comments-->
-        <th scope="col">Created At</th>
-        <th scope="col">Last updated</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% for (var k = 0; k < sightings.length; ++k) {
-        var data = sightings[k]; %>
+  <div class="table-responsive" style="height: 500px; overflow: auto;">
+    <table class="table table-bordered">
+      <thead>
         <tr>
-          <th scope="row"><%= k+1 %></th>
-          <td><%= data.date %></td>
-          <td><%= data.description %></td>
-          <td><%= data.identification.status %></td>
-          <td><%= data.identification.suggestedBy %></td>
-          <td><%= data.comments.length %></td>
-          <td><%= data.createdAt %></td>
-          <td><%= data.updatedAt %></td>
-          <td><button onclick="location.href='/sightings/<%= data._id %>';" type="button" class="btn btn-outline-success">+</button></td>
+          <th scope="col">#</th>
+          <th scope="col">Date/Time</th>
+          <th scope="col">Description</th>
+          <th scope="col">Identification</th>
+          <th scope="col">Found by</th>
+          <th scope="col">Comments</th> <!--number of comments-->
         </tr>
-      <% } %> 
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% for (var k = 0; k < sightings.length; ++k) {
+          var data = sightings[k]; 
+        if (sightings.length === 0){
+          emptyTable();
+        }%>
+          <tr class="table-data" onclick="location.href='/sightings/<%= data._id %>'">
+            <th scope="row"><%= k+1 %></th>
+            <td><%= data.date.toLocaleString()  %></td>
+            <td><%= data.description %></td>
+            <td><%= data.identification.status %></td>
+            <td><%= data.identification.suggestedBy %></td>
+            <td><%= data.comments.length %></td>
+            <!-- <td><button onclick="location.href='/sightings/<%= data._id %>';" type="button" class="btn btn-outline-success">+</button></td> -->
+          </tr>
+        <% } %> 
+      </tbody>
+    </table>
+  </div>
 </body>
 <script type="text/javascript">
+  function emptyTable(){
+    var table = document.getElementsByTagName('tbody')
+    table += <a>There are currently no sightings reported...</a>
+    table += <a>Add one now by clicking the "New Sighting" button! </a>
+  }
 </script>
 </html>

@@ -8,3 +8,11 @@ body {
   font-size: 250%;
   color: #0c4128;
 }
+
+.table-data:hover { 
+  background-color:#c0d7cd; 
+}
+
+.table-responsive{
+  width: 100%;
+}
