@@ -16,3 +16,8 @@ body {
 .table-responsive{
   width: 100%;
 }
+
+img{
+  max-width:450px;
+  max-height:450px;
+}
