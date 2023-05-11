@@ -17,6 +17,9 @@ exports.getSightings = async (req, res) => {
 // Add a new sighting (POST /sightings)
 exports.addSighting = async (req, res) => {
   const { date, latitude, longitude, description, userNickname } = req.body;
+  const imagePath = req.file
+    ? `/images/uploads/${req.file.filename}`
+    : "/images/placeholder.png";
   try {
     const sighting = new Sighting({
       date,
