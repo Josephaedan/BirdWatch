@@ -10,16 +10,38 @@
     <script src="/javascripts/detail.js"></script>
 </head>
 <body onload="init()">
+    <a href="/sightings">Birdwatch Sightings</a>
     <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand">Birdwatch Sightings</a>
+        <a class="navbar-brand">Sighting Details</a>
     </nav>
     <div class="container mh-100">
         <div class="row">
+          <div class="col"></div>
+          <div class="col"></div>
+          <div class="col"></div>
+          <div class="col"></div>
+          <div class="col">        
+            <button onclick="edit('<%=sighting.userNickname%>')" style="float: right;" class="btn btn-outline-danger">Edit Identification</button>
+          </div>
+        </div>
+        <div class="row">
             <div class="col-sm">
-                <label for="name">Sighting: </label>
-                <u id="name"><%= sighting.identification.status %></u>
+                <div class="row">
+                    <label for="name">Sighting: </label>
+                    <u id="name"><%= sighting.identification.status %></u>
+                </div>
                 <br>
-                <img src="<%=sighting.identification.photoUrl%>" width="70%" height="70%"/>
+                <div class="row" id="image-show">
+                    <div class="card" style="width: 250px; height: 250px">
+                        <img class="card-img-top" id="card-image-show" src="<%=sighting.identification.photoUrl%>">
+                      </div>
+                </div>
+                <br>
+                <div class="row">
+                    <label for="description">Description:</label>
+                    <br>
+                    <text id="description"><%= sighting.description %></text>
+                </div>
             </div>
             <div class="col-sm">
                 <label for="date">Date/Time: </label>
@@ -29,43 +51,40 @@
                 <br>
                 <text id="location"><%= sighting.location%></text>
             </div>
-
-            <div class="col-sm" style="overflow-y:scroll; max-height: 50%">
+            <div class="col-sm">
                 <label for="chat">Chat</label>
                 <div>
-                <text id="chat"></text>
-                <ul class="list-group list-group-flush" id="chatHistory">
-                    <% for (var k = 0; k < sighting.comments.length; ++k) {
-                        var data = sighting.comments[k]; %>
-                        <li class="list-group-item">
-                            <%= data.createdAt.toLocaleString() %>
-                            <br>
-                            <b><%= data.userNickname %></b> : <%= data.text %>
-                        </li>
-                      <% } %>
-                  </ul>
+                    <text id="chat"></text>
+                    <ul class="list-group list-group-flush" id="chatHistory" style="height: 300px; overflow: auto;">
+                        <% for (var k = 0; k < sighting.comments.length; ++k) {
+                            var data = sighting.comments[k]; %>
+                            <li class="list-group-item">
+                                <%= data.createdAt.toLocaleString() %>
+                                <br>
+                                <b><%= data.userNickname %></b> : <%= data.text %>
+                            </li>
+                        <% } %>
+                    </ul>
                 </div>
                 <br>
-                  <form id="chatform" style="width: 100%" onsubmit="return false;">
-                      <p>
-                          <label for="userNickname"> Username: </label>
-                          <input type="text" id="userNickname" name="userNickname" style="width:70%; float:right">
-                          <br><br>
-                          <label for="text"> Comment: </label>
-                          <input type="text" id="text" name="text" style="width:70%; float:right">
-                          <br><br>
-                          <button id="chat_send" onclick="sendChatText()">Send</button>
-                      </p>
-                  </form>
+                <form id="chatform" style="width: 100%" onsubmit="return false;">
+                    <p>
+                        <label for="userNickname"> Username: </label>
+                        <input type="text" id="userNickname" name="userNickname" style="width:70%; float:right">
+                        <br><br>
+                        <label for="text"> Comment: </label>
+                        <input type="text" id="text" name="text" style="width:70%; float:right">
+                        <br><br>
+                        <button id="chat_send" onclick="sendChatText()">Send</button>
+                    </p>
+                </form>
             </div>
-            </div>
-        <div class="row">
-            <div class="col">
-                <label for="description">Description:</label>
-                <br>
-                <text id="description"><%= sighting.description %></textarea>
-            </div>
-        </div>
     </div>
 </body>
+<script type="text/javascript">
+    function edit(nickname){
+        alert(`You have to be a creator of this sighting to edit the identification details.
+Are you ${nickname}?`);
+    }
+</script>
 </html>
