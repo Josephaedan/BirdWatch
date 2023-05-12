@@ -4,8 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser = require("body-parser");
+const { sparqlEndpointFetcher } = require('fetch-sparql-endpoint');
 
-var chatRouter = require('./routes/detail');
 var indexRouter = require("./routes/index");
 var sightingsRouter = require("./routes/sightings");
 

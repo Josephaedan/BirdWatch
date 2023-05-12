@@ -2,6 +2,9 @@ let name = null;
 let roomNo = null;
 let socket = io();
 
+// Import fetcher for Sparql for DBPedia Searches
+// const { sparqlEndpointFetcher } = require('fetch-sparql-endpoint');
+
 /**
  * called by <body onload>
  * it initialises the interface and the expected socket messages
@@ -19,6 +22,9 @@ function init() {
     socket.on('chat', function (room, userId, chatText) {
         writeOnHistory('<b>' + userId + ' :</b> ' + chatText);
     });
+
+    // fetch data
+    executeSPARQLQuery(['Cactus', 'Wren', 'Campylorhynchus', 'brunneicapillus']);
 }
 
 /**
@@ -68,4 +74,69 @@ function writeOnHistory(text) {
     listItem.innerHTML = new Date().toLocaleString("en-GB") + "<br>" + text;
     chatHistory.appendChild(listItem);
     document.getElementById('text').value = '';
+}
+
+/**
+ * Embed SPARQL Query into NodeJS App
+ * Executes a SPARQL Query from the inputted keywords, and updates the identification description
+ */
+async function executeSPARQLQuery(keywords) {
+    console.log("Executing query to DBPedia...")
+
+    const endpointUrl = 'https://dbpedia.org/sparql';
+
+    const sparqlQuery = `
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+        PREFIX dbo: <http://dbpedia.org/ontology/>
+        PREFIX dbp: <http://dbpedia.org/property/>
+    
+        SELECT ?bird ?name ?description ?commonName
+        WHERE {
+          ?bird rdf:type dbo:Bird ;
+                rdfs:label ?name ;
+                dbo:abstract ?description ;
+                rdfs:label ?commonName .
+          FILTER(LANG(?description) = 'en' && (${keywords.map(keyword => `CONTAINS(?name, "${keyword}")`).join(' || ')}))
+          FILTER(LANG(?commonName) = 'en')
+        }
+  `;
+
+    try {
+        const response = await fetch(endpointUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                query: sparqlQuery,
+                format: 'json',
+            }),
+        });
+
+        const results = await response.json();
+        console.log(results);
+
+        // Accessing a specific variable
+        const birdFirstResult = results.results.bindings[0];
+        const identification = {
+            bird: birdFirstResult.bird.value, // website link to dbpedia
+            name: birdFirstResult.name.value,
+            description: birdFirstResult.description.value,
+            commonName: birdFirstResult.commonName.value,
+        };
+        console.log(identification);
+
+        // Update description section
+        const description_element = document.getElementById("id_description");
+        description_element.innerHTML +=
+            "<br> Website: <a href=" + identification.bird + " target='_blank'>" + identification.bird + "</a>"
+            + "<br><br> Scientific Name: " + identification.name
+            + "<br><br> Common Name: " + identification.commonName
+            + "<br><br> DBPedia Description: <br>" + identification.description;
+
+
+    } catch (error) {
+        console.error(`Error executing SPARQL query: ${error}`);
+    }
 }

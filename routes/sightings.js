@@ -36,7 +36,7 @@ router.post("/add", upload.single("image"), async function (req, res, next) {
   sightingController.addSighting(req, res);
 });
 
-// GET /sightngs/:id - get a single sighting
+// GET /sightings/:id - get a single sighting
 router.get("/:id", function (req, res, next) {
   sightingController.getSighting(req, res);
 });
