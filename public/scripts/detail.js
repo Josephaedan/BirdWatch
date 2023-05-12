@@ -8,11 +8,8 @@ let socket = io();
  * plus the associated actions
  */
 function init() {
-  console.log("Chat room loaded!");
-
   // Connect to the room as shown in the URL
   const sightingID = window.location.pathname.replace("/sightings/", "");
-  console.log("Sighting ID: ", sightingID);
   socket.emit("create or join", sightingID); // Connects to room
 
   // called when a message is received
