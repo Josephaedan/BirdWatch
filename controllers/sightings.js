@@ -17,6 +17,9 @@ exports.getSightings = async (req, res) => {
 // Add a new sighting (POST /sightings)
 exports.addSighting = async (req, res) => {
   const { date, latitude, longitude, description, userNickname } = req.body;
+  const imagePath = req.file
+    ? `/images/uploads/${req.file.filename}`
+    : "/images/placeholder.png";
   try {
     const sighting = new Sighting({
       date,
@@ -50,6 +53,22 @@ exports.getSighting = async (req, res) => {
     }
     // res.status(200).json(sighting);
     res.render('detail', {sighting: sighting});
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
+// Get a single sighting's comments (GET /sightings/:id)
+exports.getSightingComments = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const sighting = await Sighting.findById(id);
+    if (!sighting) {
+      return res.status(404).json({ message: "Sighting not found" });
+    }
+    const sightingComments = sighting.comments;
+    res.render("chat", {comments: sightingComments});
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -95,7 +114,7 @@ exports.updateIdentification = async (req, res) => {
 
 // Add a comment to a sighting (POST /sightings/:id/comments)
 exports.addComment = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params;    // id is type string
   const { userNickname, text } = req.body;
   try {
     const sighting = await Sighting.findById(id);

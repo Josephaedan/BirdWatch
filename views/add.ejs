@@ -6,40 +6,73 @@
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
   <body>
+    <a href="/sightings">Birdwatch Sightings</a>
+    <!-- <button onclick="location.href='/sightings';"  class="btn btn-outline-success">🏠</button> -->
     <nav class="navbar navbar-light bg-light">
-      <a class="navbar-brand" href="#">Add New Sighting!</a>
+      <a class="navbar-brand" href="#">Add a Sighting</a>
+      </li>
     </nav>
-    <br>
-    <form enctype="multipart/form-data" action="/sightings/add" method="POST">
-      <label for="userNickName">Username:</label>
-      <input type="text" id="userNickname" name="userNickname" required />
-      <label for="image">Image:</label>
-      <input
-        type="file"
-        id="image"
-        name="image"
-        accept="image/*"
-      />
-      <br><br>
-      <div id="image-show"></div>
-      <br>
-      <label for="date">Date/Time:</label>
-      <input type="datetime-local" id="date" name="date" required />
-      <label for="description">Description:</label>
-      <input type="text" id="description" name="description" required/>
-      <br><br>
-      <label for="latitude">Latitude:</label>
-      <input type="number" id="latitude" name="latitude" required readonly />
-      <label for="longitude">Longitude:</label>
-      <input type="number" id="longitude" name="longitude" required readonly />
-      <button type="button" id="locationButton">Get Location</button>
-      <br><br>
-      <button type="submit" class="btn btn-outline-success">Submit</button>
+    <form style="padding-right: 5%; padding-left: 5%;" enctype="multipart/form-data" action="/sightings/add" method="POST">
+      <div class="row">
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col">        
+          <button style="float: right;" type="submit" class="btn btn-outline-success">Submit</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm">
+          <label for="image">Image:</label>
+          <div id="image-show">
+            <div class="card" style="width: 250px; height: 250px">
+              <img class="card-img-top" id="card-image-show">
+            </div>
+          </div>
+          <br>
+          <input
+            type="file"
+            id="image"
+            name="image"
+            accept="image/*"
+            onchange="loadFile(this)"
+          />
+        </div>
+        <div class="col-sm"></div>
+        <div class="col-sm">
+          <div class="row">
+            <label for="date">Date/Time:</label>
+            <input type="datetime-local" id="date" name="date" required />
+          </div>
+          <div class="row">
+            <div class="col-sm">
+              <div class="row">
+                <label for="latitude"><br>Latitude:</label>
+                <input type="number" id="latitude" name="latitude" required readonly />
+              </div>
+              <div class="row">
+                <label for="longitude"><br>Longitude:</label>
+                <input type="number" id="longitude" name="longitude" required readonly />
+              </div>
+            </div>
+            <div class="col-sm">
+              <br><br>
+              <button type="button" class="btn btn-sm btn-light" id="locationButton">Get Location</button>
+            </div>               
+          </div>
+          <div class="row">
+            <label for="userNickName"><br>Username:</label>
+            <input type="text" id="userNickname" name="userNickname" required />
+          </div>
+        </div>
+        <div class="row">
+          <label for="description"><br>Description:</label>
+          <input type="text" id="description" name="description" required/>
+        </div>
+      </div>
     </form>
-    <% if (typeof error != "undefined") { %>
-     <p>There was an error submitting your sighting: 
-        <br><%= error %></p>
-    <% } %>%>
   </body>
   <script type="text/javascript">
     var btn = document.getElementById("locationButton");
@@ -63,15 +96,9 @@
 
     function loadFile(input) {
       var file = input.files[0];
-      var newImage = document.createElement("img");
-      newImage.setAttribute("class", 'img');
-      newImage.src = URL.createObjectURL(file);
-      newImage.style.width = "70%";
-      newImage.style.height = "70%";
-      newImage.style.visibility = "visible";
-      newImage.style.objectFit = "contain";
-      var container = document.getElementById('image-show');
-      container.appendChild(newImage);
+      var newImage = document.getElementById('card-image-show');
+      url = URL.createObjectURL(file);
+      newImage.setAttribute('src', url);
     }
   </script>
 </html>
