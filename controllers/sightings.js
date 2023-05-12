@@ -33,8 +33,6 @@ exports.addSighting = async (req, res) => {
       comments: [],
     });
     const newSighting = await sighting.save();
-    // res.status(201).json(newSighting);
-    // TODO: Implement new sighting page to redirect to
     res.status(201).redirect(`/sightings/${newSighting._id}`);
   } catch (err) {
     console.log(err.message);
