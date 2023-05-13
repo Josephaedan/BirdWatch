@@ -46,13 +46,19 @@ function handleSubmit(event) {
   event.preventDefault();
   const form = event.target;
   const body = getRequestBody(form);
+  // If image is included in body, convert it to base 64
+  if (body.image) {
+    const reader = new FileReader();
+    reader.readAsDataURL(body.image);
+    reader.onloadend = () => {
+      body.image = reader.result;
+    };
+  }
+  const formData = new FormData(form);
   // If the user is online, send the request
   fetch(`${form.action}`, {
     method: form.method,
-    body: JSON.stringify(body),
-    headers: {
-      "Content-type": "application/json",
-    },
+    body: formData,
   })
     .then((res) => {
       // Redirect the user to the new page if response redirects

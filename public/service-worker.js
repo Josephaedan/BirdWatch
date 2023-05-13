@@ -56,12 +56,12 @@ function syncRequests() {
     getAll.onsuccess = () => {
       const requests = getAll.result;
       const syncPromises = requests.map((request, index) => {
+        // Create a FormData object from the request body
+        // This is necessary to send the request again with fetch for uploading files
+        const body = createFormData(JSON.parse(request.body));
         return fetch(request.url, {
           method: request.method,
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: request.body,
+          body: body,
         })
           .then((res) => {
             // Redirect the user to the new page if response redirects
@@ -96,6 +96,44 @@ function syncRequests() {
       console.error("Error retrieving requests from IndexedDB");
       reject();
     };
+  });
+}
+
+/**
+ * Initialises a formData object from the stored request body in indexedDB
+ * This allows for file uploads to work
+ */
+function createFormData(body) {
+  const formData = new FormData();
+  for (const key in body) {
+    formData.append(key, body[key]);
+  }
+
+  // Convert the image property to a File object
+  if (body.image) {
+    const image = body.image;
+    const file = convertDataURLtoFile(image);
+    formData.set("image", file);
+  }
+  return formData;
+}
+
+/**
+ * Converts a dataURL to a File object for uploading to server
+ * Code taken from Source: https://stackoverflow.com/questions/21227078
+ */
+function convertDataURLtoFile(dataurl) {
+  let arr = dataurl.split(","),
+    mime = arr[0].match(/:(.*?);/)[1],
+    bstr = atob(arr[1]),
+    n = bstr.length,
+    fileType = mime.split("/")[1],
+    u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new File([u8arr], `${new Date().getTime()}.${fileType}`, {
+    type: mime,
   });
 }
 
