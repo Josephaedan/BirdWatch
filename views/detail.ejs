@@ -8,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
     <script src="/scripts/detail.js"></script>
+    <script src="/scripts/form-submit.js"></script>
 </head>
 <body onload="init()">
     <a href="/sightings">Birdwatch Sightings</a>
@@ -16,6 +17,7 @@
     </nav>
     <div class="container mh-100">
         <div class="row">
+            <div id="offline-warning"></div>
           <div class="col"></div>
           <div class="col"></div>
           <div class="col"></div>
@@ -67,15 +69,15 @@
                     </ul>
                 </div>
                 <br>
-                <form id="chatform" style="width: 100%" onsubmit="return false;">
+                <form id="chatform" style="width: 100%" action="/sightings/<%=sighting.id%>/comments" method="POST">
                     <p>
                         <label for="userNickname"> Username: </label>
-                        <input type="text" id="userNickname" name="userNickname" style="width:70%; float:right">
+                        <input type="text" id="userNickname" name="userNickname" style="width:70%; float:right" required>
                         <br><br>
                         <label for="text"> Comment: </label>
-                        <input type="text" id="text" name="text" style="width:70%; float:right">
+                        <input type="text" id="text" name="text" style="width:70%; float:right" required>
                         <br><br>
-                        <button id="chat_send" onclick="sendChatText()">Send</button>
+                        <input type="submit" value="Send"></input>
                     </p>
                 </form>
             </div>
@@ -83,7 +85,7 @@
 </body>
 <script type="text/javascript">
     function edit(nickname){
-        alert(`You have to be a creator of this sighting to edit the identification details.
+        alert(`You have to be the creator of this sighting in order to edit the identification details.
 Are you ${nickname}?`);
     }
 </script>

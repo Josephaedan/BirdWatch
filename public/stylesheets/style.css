@@ -30,3 +30,9 @@ a{
 a:hover{
   color:#c0d7cd;
 }
+
+.readonly {
+  pointer-events: none;
+  focusable: false;
+  cursor: not-allowed;
+}
