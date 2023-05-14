@@ -11,12 +11,14 @@ let socket = io();
  * plus the associated actions
  */
 function init() {
-    console.log("Chat room loaded!")
-
     // Connect to the room as shown in the URL
     const sightingID = window.location.pathname.replace("/sightings/", "");
-    console.log("Sighting ID: ", sightingID)
-    socket.emit('create or join', sightingID); // Connects to room
+    socket.emit("create or join", sightingID); // Connects to room
+
+    // called when a message is received
+    socket.on("chat", function (room, userId, chatText) {
+    writeOnHistory("<b>" + userId + " :</b> " + chatText);
+    });
 
     // called when a message is received
     socket.on('chat', function (room, userId, chatText) {
@@ -25,40 +27,37 @@ function init() {
 
     // fetch data
     executeSPARQLQuery(['Cactus', 'Wren', 'Campylorhynchus', 'brunneicapillus']);
+    // Called when a message is to be sent
+    const chatForm = document.getElementById("chatform");
+    chatForm.addEventListener("submit", sendChatText);
+
+    // Called when an identification is to be added to the sighting
+    const identificationForm = document.getElementById("identificationForm");
+    identificationForm.addEventListener("submit", sendIdentification);
 }
 
 /**
- * called when the Send button is pressed. It gets the text to send from the interface
- * and sends the message via socket
+ * Called when the Send button is pressed. It gets the text to send from the interface
+ * and sends the message via socket. It also submits the form to the server to save the message
+ * to the database. In the event that the user is offline, the message will be saved to IndexedDB
+ * and sent when the user is back online.
  */
-
-function sendChatText() {
-    console.log("Sending chat message...");
+function sendChatText(event) {
+    event.preventDefault();
 
     const sightingID = window.location.pathname.replace("/sightings/", "");
-    let userNickname = document.getElementById('userNickname').value;
-    let chatText = document.getElementById('text').value;
+    let userNickname = document.getElementById("userNickname").value;
+    let chatText = document.getElementById("text").value;
 
-    console.log("User: ", userNickname);
-    console.log("Chat text: ", chatText);
-    console.log("SightingID: ", sightingID);
+    socket.emit("chat", sightingID, userNickname, chatText);
 
-    socket.emit('chat', sightingID, userNickname, chatText);
-    document.getElementById('chatform').method = 'POST';
-
-    // Submit post request
-    fetch(window.location + "/comments", {
-        method: 'POST', // Specify the HTTP method
-        headers: {'Content-Type': 'application/json'},
-        body:  JSON.stringify({
-            userNickname: userNickname,
-            text: chatText,
-        })
-    })
+    // Submit post request to server
+    // HandleSubmit is defined in public/scripts/form-submit.js
+    // and will save the request to IndexedDB if the user is offline
+    handleSubmit(event);
 
     // Clear input fields for username and text
-    // document.getElementById('userNickname').value = '';
-    document.getElementById('text').value = '';
+    document.getElementById("text").value = "";
 
     return false;
 }
@@ -140,3 +139,22 @@ async function executeSPARQLQuery(keywords) {
         console.error(`Error executing SPARQL query: ${error}`);
     }
 }
+=======
+  let chatHistory = document.getElementById("chatHistory");
+  let listItem = document.createElement("li");
+  listItem.className = "list-group-item";
+  listItem.innerHTML = new Date().toLocaleString("en-GB") + "<br>" + text;
+  chatHistory.appendChild(listItem);
+  document.getElementById("text").value = "";
+}
+
+/**
+ * Called when the user submits the identification form
+ * It sends the identification to the server and saves it to the database.
+ * In the event that the user is offline, the identification will be saved to IndexedDB
+ * and sent when the user is back online.
+ */
+function sendIdentification(event) {
+  // TODO: Add code to send identification to server
+}
+>>>>>>> main
