@@ -2,8 +2,21 @@ let name = null;
 let roomNo = null;
 let socket = io();
 
-// Import fetcher for Sparql for DBPedia Searches
-// const { sparqlEndpointFetcher } = require('fetch-sparql-endpoint');
+/**
+* Initialises the page and adds event listeners
+*/
+window.addEventListener("DOMContentLoaded", () => {
+    var idSearchFormBtn = document.getElementById("id-search-submit");
+    var idSubmitForm = document.getElementById("id-form");
+
+    if (idSearchFormBtn) {
+        idSearchFormBtn.addEventListener("click", idSearch);
+    }
+
+    if (idSubmitForm) {
+        idSubmitForm.addEventListener("submit", sendIdentification);
+    }
+});
 
 /**
  * called by <body onload>
@@ -20,18 +33,9 @@ function init() {
     writeOnHistory("<b>" + userId + " :</b> " + chatText);
     });
 
-    // called when a message is received
-    socket.on('chat', function (room, userId, chatText) {
-        writeOnHistory('<b>' + userId + ' :</b> ' + chatText);
-    });
-
     // Called when a message is to be sent
     const chatForm = document.getElementById("chatform");
     chatForm.addEventListener("submit", sendChatText);
-
-    // Called when an identification is to be added to the sighting
-    const identificationForm = document.getElementById("identificationForm");
-    identificationForm.addEventListener("submit", sendIdentification);
 }
 
 /**
@@ -74,27 +78,54 @@ function writeOnHistory(text) {
 }
 
 /**
+ * Handles the Edit Identification event.
+ */
+function editId(nickname){
+    const isUser = confirm(`You have to be the creator of this sighting in order to edit the identification details.
+Are you ${nickname}?`);
+    if (isUser) {
+
+        document.getElementById("popup").style.display = "block";
+    }
+}
+
+/**
+ * Closes the Identification Pop Up.
+ */
+function closePopup() {
+    document.getElementById("popup").style.display = "none";
+}
+
+
+/**
  * Called when the user submits the identification form
  * It sends the identification to the server and saves it to the database.
  * In the event that the user is offline, the identification will be saved to IndexedDB
  * and sent when the user is back online.
  */
 function sendIdentification(event) {
-    event.preventDefault();
+    console.log("Sending identification...");
 
-    // const sightingID = window.location.pathname.replace("/sightings/", "");
+    if (document.getElementById("idCommonName").value === "unknown") {
+        alert("You must select a new identification to submit!");
+        return ;
+    }
+
+    event.preventDefault();
 
     // Submit post request to server
     // HandleSubmit is defined in public/scripts/form-submit.js
     // and will save the request to IndexedDB if the user is offline
+    console.log("Event: ", event)
     handleSubmit(event);
 
-    // Close popup and modify html
+    // Close popup
+    closePopup();
 
+    // Reload page
+    // window.location.reload()
 
     return false;
-
-  // TODO: Add code to send identification to server
 }
 
 /**

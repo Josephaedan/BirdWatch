@@ -55,6 +55,13 @@ function handleSubmit(event) {
     };
   }
   const formData = new FormData(form);
+  console.log("Form action: ", form.action);
+  console.log("Form method: ", form.method);
+  console.log("Form data: ", formData);
+  // Display the key/value pairs
+  for (var pair of formData.entries()) {
+    console.log(pair[0]+ ', '+ pair[1]);
+  }
   // If the user is online, send the request
   fetch(`${form.action}`, {
     method: form.method,
@@ -96,6 +103,7 @@ function getRequestBody(form) {
  * @param request: the request object to be saved and eventually sent
  */
 function saveRequestLocally(request) {
+  console.log("Saving request locally...")
   return new Promise((resolve, reject) => {
     // Connect to IndexedDB
     let db;

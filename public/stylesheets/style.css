@@ -13,6 +13,35 @@ body {
   background-color:#c0d7cd; 
 }
 
+.popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+
+.popup-content {
+  background-color: #fff;
+  width: 70%;
+  padding: 20px;
+  margin: 100px auto;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.popup-content h2 {
+  margin-top: 0;
+}
+
+.popup-content button {
+  margin-top: 10px;
+  text-align: center;
+}
+
 .table-responsive{
   width: 100%;
 }

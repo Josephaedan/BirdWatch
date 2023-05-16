@@ -42,12 +42,14 @@ router.get("/:id", function (req, res, next) {
 });
 
 // GET /sightings/:id/identification - get a single sighting's identification
-router.get("/:id/identification", function (req, res, next) {
-  sightingController.getIdentification(req, res);
-});
+// router.get("/:id/identification", function (req, res, next) {
+//   sightingController.getIdentification(req, res);
+// });
 
-// PUT /sightings/:id/identification - update the identification of a sighting
-router.put("/:id/identification", function (req, res, next) {
+// POST /sightings/:id/identification - update the identification of a sighting
+router.post("/:id/identification", function (req, res, next) {
+  console.log("IN ROUTES/SIGHTINGS PAGE: UPDATE IDENTIFICATION");
+  console.log("REQ BODY IN ROUTES: ", req.body);
   sightingController.updateIdentification(req, res);
 });
 
