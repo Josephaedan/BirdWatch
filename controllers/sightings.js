@@ -16,7 +16,8 @@ exports.getSightings = async (req, res) => {
 
 // Add a new sighting (POST /sightings)
 exports.addSighting = async (req, res) => {
-  const { date, latitude, longitude, description, userNickname } = req.body;
+  const { date, latitude, longitude, description, userNickname,
+    idCommonName, idScientificName, idDescription, idLink, idStatus} = req.body;
   const imagePath = req.file
     ? `/images/uploads/${req.file.filename}`
     : "/images/placeholder.png";
@@ -28,7 +29,13 @@ exports.addSighting = async (req, res) => {
         coordinates: [longitude, latitude],
       },
       description,
-      identification: { status: "unknown", photoUrl: imagePath },
+      identification: {
+        commonName: idCommonName,
+        scientificName: idScientificName,
+        englishDescription: idDescription,
+        uri: idLink,
+        status: idStatus,
+        photoUrl: imagePath },
       userNickname,
       comments: [],
     });
@@ -67,31 +74,6 @@ exports.getSightingComments = async (req, res) => {
     }
     const sightingComments = sighting.comments;
     res.render("chat", {comments: sightingComments});
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
-
-// Get a single sighting's identification (GET /sightings/:id/identification)
-// TODO: CURRENTLY NOT IN USE, DELETE
-exports.getIdentification = async (req, res) => {
-  const id = req.params.id;
-  try {
-    const sighting = await Sighting.findById(id);
-    if (!sighting) {
-      return res.status(404).json({ message: "Sighting not found" });
-    }
-    const sightingIdentification = sighting.identification;
-    res.render("identification", {
-      commonName: sightingIdentification.commonName,
-      scientificName: sightingIdentification.scientificName,
-      englishDescription: sightingIdentification.englishDescription,
-      uri: sightingIdentification.uri,
-      photoUrl: sightingIdentification.photoUrl,
-      status: sightingIdentification.status,
-      suggestedBy: sightingIdentification.suggestedBy,
-      suggestedAt: sightingIdentification.suggestedAt
-    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

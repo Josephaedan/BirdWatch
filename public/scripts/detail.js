@@ -80,13 +80,12 @@ function writeOnHistory(text) {
  * and sent when the user is back online.
  */
 function sendIdentification(event) {
-<<<<<<< HEAD
     event.preventDefault();
 
     // const sightingID = window.location.pathname.replace("/sightings/", "");
 
     // Submit post request to server
-    // HandleSubmit is defined in public/scripts/identification-submit.js
+    // HandleSubmit is defined in public/scripts/form-submit.js
     // and will save the request to IndexedDB if the user is offline
     handleSubmit(event);
 
@@ -94,8 +93,7 @@ function sendIdentification(event) {
 
 
     return false;
-}
-=======
+
   // TODO: Add code to send identification to server
 }
 
@@ -115,4 +113,4 @@ function displayLocationOnMap(latitude, longitude) {
   }).addTo(leaflet);
   L.marker([latitude, longitude]).addTo(leaflet);
 }
->>>>>>> main
+

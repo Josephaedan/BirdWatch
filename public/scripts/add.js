@@ -60,12 +60,11 @@ async function idSearch() {
   document.getElementById("identification-info").style.display = "none";
 
   // Remove any results if previously selected
-  document.getElementById("id-common-name").textContent = "";
-  document.getElementById("id-scientific-name").textContent = "";
-  document.getElementById("id-description").textContent = "";
-  document.getElementById("id-link").href = "";
-  document.getElementById("id-link").textContent = "";
-
+  document.getElementById("idCommonName").textContent = "";
+  document.getElementById("idScientificName").textContent = "";
+  document.getElementById("idDescription").textContent = "";
+  document.getElementById("idLink").textContent = "";
+  document.getElementById("idStatus").textContent = "";
 
   console.log("Identification Search in progress...")
   const endpointUrl = 'https://dbpedia.org/sparql';
@@ -177,10 +176,11 @@ function selectIdRow(row) {
   console.log('Selected Link: ', link);
 
   // Update the 'identification-info' section with the relevant values and content
-  document.getElementById("id-common-name").value = commonName;
-  document.getElementById("id-scientific-name").value = scientificName;
-  document.getElementById("id-description").value = engDescription;
-  document.getElementById("id-link").value = link;
+  document.getElementById("idCommonName").value = commonName;
+  document.getElementById("idScientificName").value = scientificName;
+  document.getElementById("idDescription").value = engDescription;
+  document.getElementById("idLink").value = link;
+  document.getElementById("idStatus").value = "identified";
 }
 
 function showPosition(position) {
