@@ -36,3 +36,11 @@ a:hover{
   focusable: false;
   cursor: not-allowed;
 }
+
+#map { 
+  height: auto;
+  width: 100%;
+  border: 1px solid #0c4128;
+  margin: 10px;
+  min-height: 300px;
+}
