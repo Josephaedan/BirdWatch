@@ -9,6 +9,8 @@
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
     <script src="/scripts/detail.js"></script>
     <script src="/scripts/form-submit.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
 </head>
 <body onload="init()">
     <a href="/sightings">Birdwatch Sightings</a>
@@ -55,13 +57,20 @@
                     </p>
                 </div>
             </div>
-            <div class="col-sm">
+            <div class="col-sm" style="margin: 10px">
                 <label for="date">Date/Time: </label>
                 <u id="date"><%= sighting.date%></u>
                 <br>
                 <label for="location">Location: </label>
-                <br>
-                <text id="location"><%= sighting.location%></text>
+                <div class="row">
+                    <div id="map"></div>
+                    <div class="col-sm">
+                        <text id="latitude">Latitude: <%= sighting.location.coordinates[0]%></text>
+                    </div>
+                    <div class="col-sm">
+                        <text id="longitude">Longitude: <%= sighting.location.coordinates[1]%></text>
+                    </div>
+                </div>
             </div>
             <div class="col-sm">
                 <label for="chat">Chat</label>
@@ -98,5 +107,9 @@
         alert(`You have to be the creator of this sighting in order to edit the identification details.
 Are you ${nickname}?`);
     }
+    let longitude = '<%= sighting.location.coordinates[0] %>';
+    let latitude = '<%= sighting.location.coordinates[1] %>';
+    displayLocationOnMap(latitude, longitude);
+
 </script>
 </html>
