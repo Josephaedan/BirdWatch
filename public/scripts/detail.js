@@ -74,3 +74,20 @@ function writeOnHistory(text) {
 function sendIdentification(event) {
   // TODO: Add code to send identification to server
 }
+
+/**
+ * Called when the page loads to display the location of the sighting on the map.
+ * The latitude and longitude are passed as parameters and are not editable by the user.
+ * @param latitude: the latitude of the sighting
+ * @param longitude: the longitude of the sighting
+ */
+function displayLocationOnMap(latitude, longitude) {
+  const map = document.getElementById("map");
+  leaflet = L.map(map).setView([latitude, longitude], 13);
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+    attribution:
+      '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  }).addTo(leaflet);
+  L.marker([latitude, longitude]).addTo(leaflet);
+}
