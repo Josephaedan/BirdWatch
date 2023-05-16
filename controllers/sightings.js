@@ -72,6 +72,31 @@ exports.getSightingComments = async (req, res) => {
   }
 };
 
+// Get a single sighting's identification (GET /sightings/:id/identification)
+// TODO: CURRENTLY NOT IN USE, DELETE
+exports.getIdentification = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const sighting = await Sighting.findById(id);
+    if (!sighting) {
+      return res.status(404).json({ message: "Sighting not found" });
+    }
+    const sightingIdentification = sighting.identification;
+    res.render("identification", {
+      commonName: sightingIdentification.commonName,
+      scientificName: sightingIdentification.scientificName,
+      englishDescription: sightingIdentification.englishDescription,
+      uri: sightingIdentification.uri,
+      photoUrl: sightingIdentification.photoUrl,
+      status: sightingIdentification.status,
+      suggestedBy: sightingIdentification.suggestedBy,
+      suggestedAt: sightingIdentification.suggestedAt
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 // Update the identification of a sighting (PUT /sightings/:id/identification)
 exports.updateIdentification = async (req, res) => {
   const { id } = req.params;

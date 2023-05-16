@@ -25,29 +25,28 @@ const sightingSchema = new Schema({
   identification: {
     commonName: {
       type: String,
+      default: "unknown",
     },
     scientificName: {
       type: String,
+      default: "unknown",
     },
     englishDescription: {
       type: String,
+      default: "unknown",
     },
     uri: {
       type: String,
+      default: "unknown",
     },
     photoUrl: {
       type: String,
+      default: "unknown",
     },
     status: {
       type: String,
       enum: ["unknown", "uncertain", "identified"],
       default: "unknown",
-    },
-    suggestedBy: {
-      type: String,
-    },
-    suggestedAt: {
-      type: Date,
     },
   },
   userNickname: {

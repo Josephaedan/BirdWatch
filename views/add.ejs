@@ -71,8 +71,43 @@
           </div>
         </div>
         <div class="row">
-          <label for="description"><br>Description:</label>
+          <label for="description"><br>User Description:</label>
           <input type="text" id="description" name="description" required/>
+        </div>
+        <div class="row">
+          <form id="id-form">
+            <label for="id-name-search"><br>Identification Search</label>
+            <input type="text" id="id-name-search" name="id-name-search"/>
+            <button id="id-submit" type="submit" value="Search">Search Identification</button>
+          </form>
+<!--          ID table to be updated upon ID search-->
+          <table id="id-table" style="display:none">
+            <thead>
+              <tr>
+                <th>Common Name</th>
+                <th>Scientific Name</th>
+                <th>English Description</th>
+                <th>Link</th>
+              </tr>
+            </thead>
+            <tbody id="id-table-body">
+            </tbody>
+          </table>
+        </div>
+        <!--          Display selected identification's information-->
+        <div class="row" id="identification-info" style="display:none">
+          <label for="id-common-name"><br>Common name:</label>
+          <input type="text" id="id-common-name" name="id-common-name" readonly/>
+          <br><br>
+          <label for="id-scientific-name"><br>Scientific name:</label>
+          <input type="text" id="id-scientific-name" name="id-scientific-name" readonly/>
+          <br><br>
+          <label for="id-description"><br>Description:</label>
+          <input type="text" id="id-description" name="id-description" readonly/>
+          <br><br>
+          <label for="id-link"><br>Link:</label>
+          <input type="text" id="id-link" name="id-link" readonly/>
+          <br><br>
         </div>
       </div>
     </form>

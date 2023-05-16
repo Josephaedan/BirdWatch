@@ -41,6 +41,11 @@ router.get("/:id", function (req, res, next) {
   sightingController.getSighting(req, res);
 });
 
+// GET /sightings/:id/identification - get a single sighting's identification
+router.get("/:id/identification", function (req, res, next) {
+  sightingController.getIdentification(req, res);
+});
+
 // PUT /sightings/:id/identification - update the identification of a sighting
 router.put("/:id/identification", function (req, res, next) {
   sightingController.updateIdentification(req, res);

@@ -40,10 +40,19 @@
                 </div>
                 <br>
                 <div class="row">
-                    <label for="description">Description:</label>
+                    <label for="description">User Description:</label>
                     <br>
                     <text id="description"><%= sighting.description %></text>
-                    <p id="id_description"></p>
+                    <br><br>
+                    <p id="id_description">
+                        <text>Identification Status: <%= sighting.identification.status %></text><br><br>
+                        <text>Common Name: <%= sighting.identification.commonName %></text><br><br>
+                        <text>Scientific Name: <%= sighting.identification.scientificName %></text><br><br>
+                        <text>English Description: <%= sighting.identification.englishDescription %></text><br><br>
+                        <a href="<%= sighting.identification.uri %>" target='_blank'>URI: <%= sighting.identification.uri %></a><br><br>
+                        <text>Suggested At: <%= sighting.identification.suggestedAt %></text><br><br>
+                        <text>Suggested By: <%= sighting.identification.suggestedBy %></text><br><br>
+                    </p>
                 </div>
             </div>
             <div class="col-sm">
@@ -78,7 +87,7 @@
                         <label for="text"> Comment: </label>
                         <input type="text" id="text" name="text" style="width:70%; float:right" required>
                         <br><br>
-                        <input type="submit" value="Send"></input>
+                        <input type="submit" value="Send">
                     </p>
                 </form>
             </div>
