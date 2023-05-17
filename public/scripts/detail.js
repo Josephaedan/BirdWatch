@@ -3,27 +3,39 @@ let roomNo = null;
 let socket = io();
 
 /**
+* Initialises the page and adds event listeners
+*/
+window.addEventListener("DOMContentLoaded", () => {
+    var idSearchFormBtn = document.getElementById("id-search-submit");
+    var idSubmitForm = document.getElementById("id-form");
+
+    if (idSearchFormBtn) {
+        idSearchFormBtn.addEventListener("click", idSearch);
+    }
+
+    if (idSubmitForm) {
+        idSubmitForm.addEventListener("submit", sendIdentification);
+    }
+});
+
+/**
  * called by <body onload>
  * it initialises the interface and the expected socket messages
  * plus the associated actions
  */
 function init() {
-  // Connect to the room as shown in the URL
-  const sightingID = window.location.pathname.replace("/sightings/", "");
-  socket.emit("create or join", sightingID); // Connects to room
+    // Connect to the room as shown in the URL
+    const sightingID = window.location.pathname.replace("/sightings/", "");
+    socket.emit("create or join", sightingID); // Connects to room
 
-  // called when a message is received
-  socket.on("chat", function (room, userId, chatText) {
+    // called when a message is received
+    socket.on("chat", function (room, userId, chatText) {
     writeOnHistory("<b>" + userId + " :</b> " + chatText);
-  });
+    });
 
-  // Called when a message is to be sent
-  const chatForm = document.getElementById("chatform");
-  chatForm.addEventListener("submit", sendChatText);
-
-  // Called when an identification is to be added to the sighting
-  const identificationForm = document.getElementById("identificationForm");
-  identificationForm.addEventListener("submit", sendIdentification);
+    // Called when a message is to be sent
+    const chatForm = document.getElementById("chatform");
+    chatForm.addEventListener("submit", sendChatText);
 }
 
 /**
@@ -33,23 +45,23 @@ function init() {
  * and sent when the user is back online.
  */
 function sendChatText(event) {
-  event.preventDefault();
+    event.preventDefault();
 
-  const sightingID = window.location.pathname.replace("/sightings/", "");
-  let userNickname = document.getElementById("userNickname").value;
-  let chatText = document.getElementById("text").value;
+    const sightingID = window.location.pathname.replace("/sightings/", "");
+    let userNickname = document.getElementById("userNickname").value;
+    let chatText = document.getElementById("text").value;
 
-  socket.emit("chat", sightingID, userNickname, chatText);
+    socket.emit("chat", sightingID, userNickname, chatText);
 
-  // Submit post request to server
-  // HandleSubmit is defined in public/scripts/form-submit.js
-  // and will save the request to IndexedDB if the user is offline
-  handleSubmit(event);
+    // Submit post request to server
+    // HandleSubmit is defined in public/scripts/form-submit.js
+    // and will save the request to IndexedDB if the user is offline
+    handleSubmit(event);
 
-  // Clear input fields for username and text
-  document.getElementById("text").value = "";
+    // Clear input fields for username and text
+    document.getElementById("text").value = "";
 
-  return false;
+    return false;
 }
 
 /**
@@ -57,13 +69,33 @@ function sendChatText(event) {
  * @param text: the text to append
  */
 function writeOnHistory(text) {
-  let chatHistory = document.getElementById("chatHistory");
-  let listItem = document.createElement("li");
-  listItem.className = "list-group-item";
-  listItem.innerHTML = new Date().toLocaleString("en-GB") + "<br>" + text;
-  chatHistory.appendChild(listItem);
-  document.getElementById("text").value = "";
+    let chatHistory = document.getElementById('chatHistory');
+    let listItem = document.createElement('li');
+    listItem.className = "list-group-item"
+    listItem.innerHTML = new Date().toLocaleString("en-GB") + "<br>" + text;
+    chatHistory.appendChild(listItem);
+    document.getElementById('text').value = '';
 }
+
+/**
+ * Handles the Edit Identification event.
+ */
+function editId(nickname){
+    const isUser = confirm(`You have to be the creator of this sighting in order to edit the identification details.
+Are you ${nickname}?`);
+    if (isUser) {
+
+        document.getElementById("popup").style.display = "block";
+    }
+}
+
+/**
+ * Closes the Identification Pop Up.
+ */
+function closePopup() {
+    document.getElementById("popup").style.display = "none";
+}
+
 
 /**
  * Called when the user submits the identification form
@@ -72,7 +104,28 @@ function writeOnHistory(text) {
  * and sent when the user is back online.
  */
 function sendIdentification(event) {
-  // TODO: Add code to send identification to server
+    console.log("Sending identification...");
+
+    if (document.getElementById("idCommonName").value === "unknown") {
+        alert("You must select a new identification to submit!");
+        return ;
+    }
+
+    event.preventDefault();
+
+    // Submit post request to server
+    // HandleSubmit is defined in public/scripts/form-submit.js
+    // and will save the request to IndexedDB if the user is offline
+    console.log("Event: ", event)
+    handleSubmit(event);
+
+    // Close popup
+    closePopup();
+
+    // Reload page
+    // window.location.reload()
+
+    return false;
 }
 
 /**
@@ -91,3 +144,4 @@ function displayLocationOnMap(latitude, longitude) {
   }).addTo(leaflet);
   L.marker([latitude, longitude]).addTo(leaflet);
 }
+

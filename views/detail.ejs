@@ -9,6 +9,7 @@
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
     <script src="/scripts/detail.js"></script>
     <script src="/scripts/form-submit.js"></script>
+    <script src="/scripts/identification.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
 </head>
@@ -17,6 +18,58 @@
     <nav class="navbar navbar-light bg-light">
         <a class="navbar-brand">Sighting Details</a>
     </nav>
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <h2>Edit Identification</h2>
+            <form id="id-form" action="/sightings/<%=sighting.id%>/identification" method="POST">
+                <div class="row">
+                    <div>
+                        <label for="id-name-search"><br>Identification Search</label>
+                        <input type="text" id="id-name-search" name="id-name-search"/>
+                        <button id="id-search-submit" type="submit" value="Search">Search Identification</button>
+                    </div>
+
+                    <!--          ID table to be updated upon ID search-->
+                    <table id="id-table" style="display:none;">
+                        <thead>
+                        <tr>
+                            <th>Common Name</th>
+                            <th>Scientific Name</th>
+                            <th>English Description</th>
+                            <th>Link</th>
+                        </tr>
+                        </thead>
+                        <tbody id="id-table-body" style="height:200px; overflow-y:auto;">
+                        </tbody>
+                    </table>
+
+
+                    <!--          Display selected identification's information-->
+                    <div class="row" id="identification-info" style="display:none;">
+
+                        <label for="idCommonName"><br>Common name:</label>
+                        <input type="text" id="idCommonName" value="unknown" name="idCommonName" readonly/>
+                        <br><br>
+                        <label for="idScientificName"><br>Scientific name:</label>
+                        <input type="text" id="idScientificName" value="unknown" name="idScientificName" readonly/>
+                        <br><br>
+                        <label for="idDescription"><br>Description:</label>
+                        <input type="text" id="idDescription" value="unknown" name="idDescription" readonly/>
+                        <br><br>
+                        <label for="idLink"><br>Link:</label>
+                        <input type="text" id="idLink" name="idLink" value="unknown" readonly/>
+                        <br><br>
+                        <label for="idStatus"><br>Status:</label>
+                        <input type="text" id="idStatus" name="idStatus" value="unknown" readonly/>
+                        <br><br>
+
+                    </div>
+                    <button onclick="return closePopup()">Close</button>
+                    <button id="id-form-submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
     <div class="container mh-100">
         <div class="row">
             <div id="offline-warning"></div>
@@ -25,7 +78,7 @@
           <div class="col"></div>
           <div class="col"></div>
           <div class="col">        
-            <button onclick="edit('<%=sighting.userNickname%>')" style="float: right;" class="btn btn-outline-danger">Edit Identification</button>
+            <button onclick="return editId('<%=sighting.userNickname%>')" style="float: right;" class="btn btn-outline-danger">Edit Identification</button>
           </div>
         </div>
         <div class="row">
@@ -42,9 +95,17 @@
                 </div>
                 <br>
                 <div class="row">
-                    <label for="description">Description:</label>
+                    <label for="description">User Description:</label>
                     <br>
                     <text id="description"><%= sighting.description %></text>
+                    <br><br>
+                    <p id="id_description">
+                        <text>Identification Status: <%= sighting.identification.status %></text><br><br>
+                        <text>Common Name: <%= sighting.identification.commonName %></text><br><br>
+                        <text>Scientific Name: <%= sighting.identification.scientificName %></text><br><br>
+                        <text>English Description: <%= sighting.identification.englishDescription %></text><br><br>
+                        <a href="<%= sighting.identification.uri %>" target='_blank'>URI: <%= sighting.identification.uri %></a><br><br>
+                    </p>
                 </div>
             </div>
             <div class="col-sm" style="margin: 10px">
@@ -86,20 +147,16 @@
                         <label for="text"> Comment: </label>
                         <input type="text" id="text" name="text" style="width:70%; float:right" required>
                         <br><br>
-                        <input type="submit" value="Send"></input>
+                        <input type="submit" value="Send">
                     </p>
                 </form>
             </div>
+        </div>
     </div>
 </body>
 <script type="text/javascript">
-    function edit(nickname){
-        alert(`You have to be the creator of this sighting in order to edit the identification details.
-Are you ${nickname}?`);
-    }
     let longitude = '<%= sighting.location.coordinates[0] %>';
     let latitude = '<%= sighting.location.coordinates[1] %>';
     displayLocationOnMap(latitude, longitude);
-
 </script>
 </html>

@@ -14,6 +14,7 @@ const SHEFFIELD_COORDINATES = [53.383331, -1.466667];
 window.addEventListener("DOMContentLoaded", () => {
   var btn = document.getElementById("locationButton");
   var form = document.getElementById("form");
+  var idFormBtn = document.getElementById("id-submit");
 
   if (btn) {
     btn.addEventListener("click", getLocation);
@@ -23,7 +24,12 @@ window.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", handleSubmit);
   }
 
+  if (idFormBtn) {
+    idFormBtn.addEventListener("click", idSearch);
+  }
+
   initialiseMap(SHEFFIELD_COORDINATES[0], SHEFFIELD_COORDINATES[1]);
+
 });
 
 /**
@@ -37,6 +43,11 @@ function getLocation() {
   } else {
     alert("Geolocation is not supported by this browser.");
   }
+}
+
+function showPosition(position) {
+  latitude.value = position.coords.latitude;
+  longitude.value = position.coords.longitude;
 }
 
 /**

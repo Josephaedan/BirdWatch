@@ -16,7 +16,8 @@ exports.getSightings = async (req, res) => {
 
 // Add a new sighting (POST /sightings)
 exports.addSighting = async (req, res) => {
-  const { date, latitude, longitude, description, userNickname } = req.body;
+  const { date, latitude, longitude, description, userNickname,
+    idCommonName, idScientificName, idDescription, idLink, idStatus} = req.body;
   const imagePath = req.file
     ? `/images/uploads/${req.file.filename}`
     : "/images/placeholder.png";
@@ -28,7 +29,13 @@ exports.addSighting = async (req, res) => {
         coordinates: [longitude, latitude],
       },
       description,
-      identification: { status: "unknown", photoUrl: imagePath },
+      identification: {
+        commonName: idCommonName,
+        scientificName: idScientificName,
+        englishDescription: idDescription,
+        uri: idLink,
+        status: idStatus,
+        photoUrl: imagePath },
       userNickname,
       comments: [],
     });
@@ -72,36 +79,32 @@ exports.getSightingComments = async (req, res) => {
   }
 };
 
-// Update the identification of a sighting (PUT /sightings/:id/identification)
+// Update the identification of a sighting (POST /sightings/:id/identification)
 exports.updateIdentification = async (req, res) => {
+  console.log("In sightings controller... Updating Identification...")
+  console.log("REQUEST PARAMS: ", req.params)
+  console.log("REQUEST BODY: ", req.body)
   const { id } = req.params;
   const {
-    commonName,
-    scientificName,
-    englishDescription,
-    uri,
-    photoUrl,
-    suggestedBy,
+    idCommonName, idScientificName, idDescription, idLink, idStatus
   } = req.body;
   try {
     const sighting = await Sighting.findById(id);
     if (!sighting) {
       return res.status(404).json({ message: "Sighting not found" });
     }
-    if (sighting.identification.status !== "unknown") {
-      return res
-        .status(400)
-        .json({ message: "Sighting has already been identified" });
-    }
+    // Removed the following as sightings' identification can be updated
+    // if (sighting.identification.status !== "unknown") {
+    //   return res
+    //     .status(400)
+    //     .json({ message: "Sighting has already been identified" });
+    // }
     sighting.identification = {
-      commonName,
-      scientificName,
-      englishDescription,
-      uri,
-      photoUrl,
-      status: "uncertain",
-      suggestedBy,
-      suggestedAt: new Date(),
+        commonName: idCommonName,
+        scientificName: idScientificName,
+        englishDescription: idDescription,
+        uri: idLink,
+        status: idStatus,
     };
     const updatedSighting = await sighting.save();
     res.json(updatedSighting);
@@ -128,7 +131,6 @@ exports.addComment = async (req, res) => {
 };
 
 // Render the sightings page (GET /sightings)
-// TODO: Implement sightings view
 exports.renderSightings = async (req, res) => {
   const sightings = await Sighting.find().sort({
     date: "desc",

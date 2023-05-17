@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/stylesheets/style.css" />
     <script src="/scripts/add.js"></script>
     <script src="/scripts/form-submit.js"></script>
+    <script src="/scripts/identification.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
 <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
   </head>
@@ -74,8 +75,46 @@
           </div>
         </div>
         <div class="row">
-          <label for="description"><br>Description:</label>
+          <label for="description"><br>User Description:</label>
           <input type="text" id="description" name="description" required/>
+        </div>
+        <div class="row">
+          <form id="id-form">
+            <label for="id-name-search"><br>Identification Search</label>
+            <input type="text" id="id-name-search" name="id-name-search"/>
+            <button id="id-submit" type="submit" value="Search">Search Identification</button>
+          </form>
+<!--          ID table to be updated upon ID search-->
+          <table id="id-table" style="display:none">
+            <thead>
+              <tr>
+                <th>Common Name</th>
+                <th>Scientific Name</th>
+                <th>English Description</th>
+                <th>Link</th>
+              </tr>
+            </thead>
+            <tbody id="id-table-body">
+            </tbody>
+          </table>
+        </div>
+        <!--          Display selected identification's information-->
+        <div class="row" id="identification-info" style="display:none">
+          <label for="idCommonName"><br>Common name:</label>
+          <input type="text" id="idCommonName" value="unknown" name="idCommonName" readonly/>
+          <br><br>
+          <label for="idScientificName"><br>Scientific name:</label>
+          <input type="text" id="idScientificName" value="unknown" name="idScientificName" readonly/>
+          <br><br>
+          <label for="idDescription"><br>Description:</label>
+          <input type="text" id="idDescription" value="unknown" name="idDescription" readonly/>
+          <br><br>
+          <label for="idLink"><br>Link:</label>
+          <input type="text" id="idLink" name="idLink" value="unknown" readonly/>
+          <br><br>
+          <label for="idStatus"><br>Status:</label>
+          <input type="text" id="idStatus" name="idStatus" value="unknown" readonly/>
+          <br><br>
         </div>
       </div>
     </form>

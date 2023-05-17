@@ -36,18 +36,25 @@ router.post("/add", upload.single("image"), async function (req, res, next) {
   sightingController.addSighting(req, res);
 });
 
-// GET /sightngs/:id - get a single sighting
+// GET /sightings/:id - get a single sighting
 router.get("/:id", function (req, res, next) {
   sightingController.getSighting(req, res);
 });
 
-// PUT /sightings/:id/identification - update the identification of a sighting
-router.put("/:id/identification", function (req, res, next) {
+// GET /sightings/:id/identification - get a single sighting's identification
+// router.get("/:id/identification", function (req, res, next) {
+//   sightingController.getIdentification(req, res);
+// });
+
+// POST /sightings/:id/identification - update the identification of a sighting
+router.post("/:id/identification", multer().none(), function (req, res, next) {
+  console.log("IN ROUTES/SIGHTINGS PAGE: UPDATE IDENTIFICATION");
+  console.log("REQ BODY IN ROUTES: ", req.body);
   sightingController.updateIdentification(req, res);
 });
 
 // POST /sightings/:id/comments - add a comment to a sighting
-router.post("/:id/comments", function (req, res, next) {
+router.post("/:id/comments", multer().none(), function (req, res, next) {
   sightingController.addComment(req, res);
 });
 
