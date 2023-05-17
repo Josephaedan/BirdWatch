@@ -48,8 +48,6 @@ router.get("/:id", function (req, res, next) {
 
 // POST /sightings/:id/identification - update the identification of a sighting
 router.post("/:id/identification", multer().none(), function (req, res, next) {
-  console.log("IN ROUTES/SIGHTINGS PAGE: UPDATE IDENTIFICATION");
-  console.log("REQ BODY IN ROUTES: ", req.body);
   sightingController.updateIdentification(req, res);
 });
 

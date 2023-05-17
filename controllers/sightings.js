@@ -81,9 +81,6 @@ exports.getSightingComments = async (req, res) => {
 
 // Update the identification of a sighting (POST /sightings/:id/identification)
 exports.updateIdentification = async (req, res) => {
-  console.log("In sightings controller... Updating Identification...")
-  console.log("REQUEST PARAMS: ", req.params)
-  console.log("REQUEST BODY: ", req.body)
   const { id } = req.params;
   const {
     idCommonName, idScientificName, idDescription, idLink, idStatus
@@ -93,19 +90,11 @@ exports.updateIdentification = async (req, res) => {
     if (!sighting) {
       return res.status(404).json({ message: "Sighting not found" });
     }
-    // Removed the following as sightings' identification can be updated
-    // if (sighting.identification.status !== "unknown") {
-    //   return res
-    //     .status(400)
-    //     .json({ message: "Sighting has already been identified" });
-    // }
-    sighting.identification = {
-        commonName: idCommonName,
-        scientificName: idScientificName,
-        englishDescription: idDescription,
-        uri: idLink,
-        status: idStatus,
-    };
+    sighting.identification.commonName = idCommonName;
+    sighting.identification.scientificName = idScientificName;
+    sighting.identification.englishDescription = idDescription;
+    sighting.identification.uri = idLink;
+    sighting.identification.status = idStatus;
     const updatedSighting = await sighting.save();
     res.json(updatedSighting);
   } catch (err) {
