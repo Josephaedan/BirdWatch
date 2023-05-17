@@ -47,14 +47,14 @@ router.get("/:id", function (req, res, next) {
 // });
 
 // POST /sightings/:id/identification - update the identification of a sighting
-router.post("/:id/identification", function (req, res, next) {
+router.post("/:id/identification", multer().none(), function (req, res, next) {
   console.log("IN ROUTES/SIGHTINGS PAGE: UPDATE IDENTIFICATION");
   console.log("REQ BODY IN ROUTES: ", req.body);
   sightingController.updateIdentification(req, res);
 });
 
 // POST /sightings/:id/comments - add a comment to a sighting
-router.post("/:id/comments", function (req, res, next) {
+router.post("/:id/comments", multer().none(), function (req, res, next) {
   sightingController.addComment(req, res);
 });
 
