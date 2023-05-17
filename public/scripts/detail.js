@@ -104,8 +104,6 @@ function closePopup() {
  * and sent when the user is back online.
  */
 function sendIdentification(event) {
-    console.log("Sending identification...");
-
     if (document.getElementById("idCommonName").value === "unknown") {
         alert("You must select a new identification to submit!");
         return ;
@@ -116,14 +114,13 @@ function sendIdentification(event) {
     // Submit post request to server
     // HandleSubmit is defined in public/scripts/form-submit.js
     // and will save the request to IndexedDB if the user is offline
-    console.log("Event: ", event)
     handleSubmit(event);
+
+    // Reload page
+    window.location.reload();
 
     // Close popup
     closePopup();
-
-    // Reload page
-    // window.location.reload()
 
     return false;
 }
