@@ -20,8 +20,9 @@ The application includes the following features:
 
 - Adding new bird sightings, including the date and time seen, location, description, and identification
 - Viewing a sorted list of all bird sightings, sorted by date/time seen and identification status
-- Commenting on identification suggestions for each sighting
+- Commenting on each sighting via a live chat function that is saved online
 - Linking identifications to information obtained from the DBPedia knowledge graph, including common name/scientific name, English description, and a URI linking to the DBPedia page describing the bird
+- Offline functionality with background sync for adding sightings, comments or identification of sightings
 
 ## Getting Started
 
