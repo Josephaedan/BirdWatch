@@ -103,25 +103,28 @@ function closePopup() {
  * and sent when the user is back online.
  */
 function sendIdentification(event) {
-    if (document.getElementById("idCommonName").value === "unknown") {
-        alert("You must select a new identification to submit!");
-        return ;
-    }
+  if (document.getElementById("idCommonName").value === "unknown") {
+    alert("You must select a new identification to submit!");
+    return;
+  }
 
-    event.preventDefault();
+  event.preventDefault();
 
-    // Submit post request to server
-    // HandleSubmit is defined in public/scripts/form-submit.js
-    // and will save the request to IndexedDB if the user is offline
-    handleSubmit(event);
+  // Submit post request to server
+  // HandleSubmit is defined in public/scripts/form-submit.js
+  // and will save the request to IndexedDB if the user is offline
+  handleSubmit(event);
 
-    // Reload page
+  // Reload page to display new identification
+  // If user is offline, the page will reload when the user is back online (see form-submit.js)
+  if (navigator.onLine) {
     window.location.reload();
+  }
 
-    // Close popup
-    closePopup();
+  // Close popup
+  closePopup();
 
-    return false;
+  return false;
 }
 
 /**

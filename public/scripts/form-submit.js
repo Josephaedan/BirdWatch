@@ -112,7 +112,6 @@ function saveRequestLocally(request) {
       };
       const addRequest = store.add(data);
       addRequest.onsuccess = () => {
-        console.log("Request stored in IndexedDB");
         resolve(new Response(null, { status: 200 }));
       };
       addRequest.onerror = (error) => {
@@ -145,5 +144,9 @@ navigator.serviceWorker.addEventListener("message", (event) => {
   // Redirect the user to the new bird page if the request was successful
   if (event.data && event.data.type === "redirect") {
     window.location.href = event.data.url;
+  }
+  // Reload the page if the user is online again
+  if (event.data && event.data.type === "reload") {
+    window.location.reload();
   }
 });

@@ -37,7 +37,6 @@ request.onupgradeneeded = (event) => {
 
 request.onsuccess = (event) => {
   db = event.target.result;
-  console.log("IndexedDB initialised");
 };
 
 request.onerror = (event) => {
@@ -73,6 +72,15 @@ function syncRequests() {
                 });
               });
             }
+
+            // If the response is ok but not redirected, refresh the page to update the UI
+            if (res.ok && !res.redirected) {
+              self.clients.matchAll().then((clients) => {
+                clients.forEach((client) => {
+                  client.postMessage({ type: "reload" });
+                });
+              });
+            }
           })
           .catch((error) => {
             console.error("Error syncing request:", error);
@@ -81,7 +89,9 @@ function syncRequests() {
 
       Promise.all(syncPromises)
         .then(() => {
-          console.log("Sync completed");
+          console.log(
+            "Sync completed - All offline requests have been dispatched"
+          );
         })
         .then(() => {
           deleteAllRequests();

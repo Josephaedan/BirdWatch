@@ -6,7 +6,6 @@ exports.init = function(io) {
        * create or joins a room
        */
       socket.on("create or join", function (room) {
-        console.log(room);
         console.log("Created/Joined ", room);
         socket.join(room);
         // Retrieve past messages
