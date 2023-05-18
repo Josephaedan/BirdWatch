@@ -5,7 +5,7 @@ const sightingController = require("../controllers/sightings");
 const multer = require("multer");
 
 // Initialise multer and set the destination for uploaded files
-// Code taken from Lab 'Week 11 Mongo - Upload Images 2 2'
+// Code taken from Lab 'Week 11 Mongo - Upload Images 2'
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "public/images/uploads/");
@@ -40,11 +40,6 @@ router.post("/add", upload.single("image"), async function (req, res, next) {
 router.get("/:id", function (req, res, next) {
   sightingController.getSighting(req, res);
 });
-
-// GET /sightings/:id/identification - get a single sighting's identification
-// router.get("/:id/identification", function (req, res, next) {
-//   sightingController.getIdentification(req, res);
-// });
 
 // POST /sightings/:id/identification - update the identification of a sighting
 router.post("/:id/identification", multer().none(), function (req, res, next) {
