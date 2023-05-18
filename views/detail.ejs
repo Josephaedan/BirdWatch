@@ -27,10 +27,11 @@
                         <label for="id-name-search"><br>Identification Search</label>
                         <input type="text" id="id-name-search" name="id-name-search"/>
                         <button id="id-search-submit" type="submit" value="Search">Search Identification</button>
+                        <br><br>
                     </div>
 
                     <!--          ID table to be updated upon ID search-->
-                    <table id="id-table" style="display:none;">
+                    <table class="table table-bordered" id="id-table" style="height:200px; overflow: auto;">
                         <thead>
                         <tr>
                             <th>Common Name</th>
@@ -39,14 +40,12 @@
                             <th>Link</th>
                         </tr>
                         </thead>
-                        <tbody id="id-table-body" style="height:200px; overflow-y:auto;">
+                        <tbody id="id-table-body" style="overflow:auto;">
                         </tbody>
                     </table>
 
-
                     <!--          Display selected identification's information-->
                     <div class="row" id="identification-info" style="display:none;">
-
                         <label for="idCommonName"><br>Common name:</label>
                         <input type="text" id="idCommonName" value="unknown" name="idCommonName" readonly/>
                         <br><br>
@@ -62,7 +61,6 @@
                         <label for="idStatus"><br>Status:</label>
                         <input type="text" id="idStatus" name="idStatus" value="unknown" readonly/>
                         <br><br>
-
                     </div>
                     <button onclick="return closePopup()">Close</button>
                     <button id="id-form-submit">Submit</button>
@@ -95,23 +93,20 @@
                 </div>
                 <br>
                 <div class="row">
+                    <label for="user">Found by:</label>
+                    <br>
+                    <u id="user"><%= sighting.userNickname %></u>
+                    <br>
                     <label for="description">User Description:</label>
                     <br>
-                    <text id="description"><%= sighting.description %></text>
-                    <br><br>
-                    <p id="id_description">
-                        <text>Identification Status: <%= sighting.identification.status %></text><br><br>
-                        <text>Common Name: <%= sighting.identification.commonName %></text><br><br>
-                        <text>Scientific Name: <%= sighting.identification.scientificName %></text><br><br>
-                        <text>English Description: <%= sighting.identification.englishDescription %></text><br><br>
-                        <a href="<%= sighting.identification.uri %>" target='_blank'>URI: <%= sighting.identification.uri %></a><br><br>
-                    </p>
+                    <u id="description"><%= sighting.description %></u>
                 </div>
             </div>
             <div class="col-sm" style="margin: 10px">
                 <label for="date">Date/Time: </label>
-                <u id="date"><%= sighting.date%></u>
                 <br>
+                <u id="date"><%= sighting.date%></u>
+                <br><br>
                 <label for="location">Location: </label>
                 <div class="row">
                     <div id="map"></div>
@@ -151,6 +146,16 @@
                     </p>
                 </form>
             </div>
+        </div>
+        <div class="row">
+            <label>Identification: </label>
+            <p id="id_description">
+                <text>Identification Status: <%= sighting.identification.status %></text><br><br>
+                <text>Common Name: <%= sighting.identification.commonName %></text><br><br>
+                <text>Scientific Name: <%= sighting.identification.scientificName %></text><br><br>
+                <text>English Description: <%= sighting.identification.englishDescription %></text><br><br>
+                <a href="<%= sighting.identification.uri %>" target='_blank'>URI: <%= sighting.identification.uri %></a><br><br>
+            </p>
         </div>
     </div>
 </body>

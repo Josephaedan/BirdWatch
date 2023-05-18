@@ -84,7 +84,6 @@ function editId(nickname){
     const isUser = confirm(`You have to be the creator of this sighting in order to edit the identification details.
 Are you ${nickname}?`);
     if (isUser) {
-
         document.getElementById("popup").style.display = "block";
     }
 }

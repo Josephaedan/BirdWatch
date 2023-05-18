@@ -34,9 +34,7 @@ async function idSearch(event) {
     console.log("Identification Search in progress...")
     const endpointUrl = 'https://dbpedia.org/sparql';
     const searchWords = document.getElementById("id-name-search").value;
-    // console.log(searchWords);
     const keywords = searchWords.split(" ");
-    console.log(keywords);
 
     const sparqlQuery = `
     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -68,7 +66,6 @@ async function idSearch(event) {
         });
 
         const results = await response.json();
-        console.log(results);
 
         // The ID Table element to be updated
         const id_table_body = document.getElementById("id-table-body");

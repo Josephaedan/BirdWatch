@@ -11,8 +11,7 @@
 <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
   </head>
   <body>
-    <a href="/sightings">Birdwatch Sightings</a>
-    <!-- <button onclick="location.href='/sightings';"  class="btn btn-outline-success">🏠</button> -->
+    <a href="/sightings"">Birdwatch Sightings</a>
     <nav class="navbar navbar-light bg-light">
       <a class="navbar-brand" href="#">Add a Sighting</a>
       </li>
@@ -26,7 +25,7 @@
         <div class="col"></div>
         <div class="col"></div>
         <div class="col">        
-          <button style="float: right;" type="submit" class="btn btn-outline-success">Submit</button>
+          <button style="float: right;" type="submit" class="btn btn-outline-danger">Submit</button>
         </div>
       </div>
       <div class="row">
@@ -85,7 +84,7 @@
             <button id="id-submit" type="submit" value="Search">Search Identification</button>
           </form>
 <!--          ID table to be updated upon ID search-->
-          <table id="id-table" style="display:none">
+          <table class="table table-bordered table-responsive" id="id-table" style="display:none; height:200px; overflow: auto;">
             <thead>
               <tr>
                 <th>Common Name</th>
@@ -116,6 +115,9 @@
           <input type="text" id="idStatus" name="idStatus" value="unknown" readonly/>
           <br><br>
         </div>
+        <table>
+
+        </table>
       </div>
     </form>
   </body>
