@@ -17,7 +17,10 @@
   </head>
   <body onload="initialiseBirdWatch();">
     <nav class="navbar navbar-light bg-light">
-      <a class="navbar-brand">Birdwatch Sightings</a>
+      <a class="navbar-brand">
+        <img src="/images/logo.svg" width="50" height="50" style="margin-bottom: 10px;" alt="">
+      BirdWatch
+      </a>
       <button
         onclick="location.href='sightings/add';"
         type="button"
@@ -56,7 +59,7 @@
             <th scope="row"><%= k+1 %></th>
             <td><%= data.date.toLocaleString() %></td>
             <td><%= data.description %></td>
-            <td><%= data.identification.status %></td>
+            <td><%= data.identification.commonName %></td>
             <td><%= data.userNickname %></td>
             <td><%= data.comments.length %></td>
           </tr>

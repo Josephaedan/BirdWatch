@@ -14,10 +14,13 @@
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
 </head>
 <body onload="init()">
-    <a href="/sightings">Birdwatch Sightings</a>
     <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand">Sighting Details</a>
+        <a class="navbar-brand" href="/">
+            <img src="/images/logo.svg" width="50" height="50" style="margin-bottom: 10px;" alt="">
+          BirdWatch
+          </a>
     </nav>
+        
     <div id="popup" class="popup">
         <div class="popup-content">
             <h2>Edit Identification</h2>
@@ -69,6 +72,7 @@
         </div>
     </div>
     <div class="container mh-100">
+        <h1 style="color:#0c4128;">Sighting Details</h1>
         <div class="row">
             <div id="offline-warning"></div>
           <div class="col"></div>

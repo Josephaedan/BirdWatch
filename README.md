@@ -1,3 +1,7 @@
+<p align="center">
+  <img width="200" height="200" src="public/images/logo.svg">
+</p>
+
 # BirdWatch - A Bird Sighting Progressive Web Application
 
 **:information_source: Psst! BirdWatch is currently hosted live with a hosted MongoDB database! Check it out [here](https://birdwatch.up.railway.app/)!**
@@ -25,11 +29,11 @@ To run the application locally, follow these steps:
 
 1. Ensure you have [Node.js](https://nodejs.org/en/download) and [MongoDB](https://www.mongodb.com/docs/manual/administration/install-community/) installed on your machine
 2. Ensure MongoDB is running on your machine. More instructions can be found to run MongoDB on your platform can be found [here](https://www.mongodb.com/docs/manual/administration/install-community/)
-3. Clone the repository: `git clone https://github.com/Josephaedan/BirdWatch.git`
+3. Clone the repository: `git clone https://github.com/Josephaedan/BirdWatch.git` or download the files locally
 4. Install dependencies: `npm install`
 5. Create a '.env' file in the root directory of the project and set the environment variables you would like to use. An example file '.env.example' has been provided for you to use as a template.
-5. Start the server: `npm run start`
-6. Open the application in your web browser at `http://localhost:<PORT>`. By default, the application will run on port 3000 and the MongoDB instance will run on port 27017. If you wish to change this, you can do so by setting the `PORT` environment variable before starting the server.
+6. Start the server: `npm run start`
+7. Open the application in your web browser at `http://localhost:<PORT>`. By default, the application will run on port 3000 and the MongoDB instance will run on port 27017. If you wish to change this, you can do so by setting the `PORT` environment variable before starting the server.
 
 ## Dependencies
 
@@ -40,6 +44,9 @@ The application uses the following dependencies:
 - Mongoose: a MongoDB object modeling tool designed to work in an asynchronous environment
 - EJS: a simple templating language that lets you generate HTML markup with plain JavaScript
 - DBPedia Spotlight: a RESTful Web service that allows users to annotate text against a large, multilingual Wikipedia-based knowledge graph
+- Bootstrap: a free and open-source CSS framework directed at responsive, mobile-first front-end web development
+- Leaflet: an open-source JavaScript library for mobile-friendly interactive maps
+- OpenStreetMap: a collaborative project to create a free editable map of the world
 
 ## License
 

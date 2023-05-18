@@ -62,6 +62,7 @@ a{
 
 a:hover{
   color:#c0d7cd;
+  cursor: pointer;
 }
 
 .readonly {
