@@ -8,16 +8,29 @@ exports.getSightings = async (req, res) => {
       "identification.status": "asc",
     });
     // res.json(sightings);
-    res.render('index', {sightings: sightings});
+    res.render("index", { sightings: sightings });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(400).json({ message: err.message });
   }
 };
 
 // Add a new sighting (POST /sightings)
 exports.addSighting = async (req, res) => {
-  const { date, latitude, longitude, description, userNickname,
-    idCommonName, idScientificName, idDescription, idLink, idStatus} = req.body;
+  // Get the data from the request body
+  const {
+    date,
+    latitude,
+    longitude,
+    description,
+    userNickname,
+    idCommonName,
+    idScientificName,
+    idDescription,
+    idLink,
+    idStatus,
+  } = req.body;
+
+  // Use the image path from the request file if it exists, otherwise use BirdWatch's placeholder image
   const imagePath = req.file
     ? `/images/uploads/${req.file.filename}`
     : "/images/placeholder.png";
@@ -35,34 +48,38 @@ exports.addSighting = async (req, res) => {
         englishDescription: idDescription,
         uri: idLink,
         status: idStatus,
-        photoUrl: imagePath },
+        photoUrl: imagePath,
+      },
       userNickname,
       comments: [],
     });
+
+    // Save the sighting to the database
     const newSighting = await sighting.save();
+
+    // Redirect to the new sighting's page
     res.status(201).redirect(`/sightings/${newSighting._id}`);
   } catch (err) {
-    console.log(err.message);
-    res.status(400).render("add", { error: err.message, sighting: req.body });
+    res.status(400).json({ message: err.message });
   }
 };
 
 // Get a single sighting (GET /sightings/:id)
 exports.getSighting = async (req, res) => {
   const id = req.params.id;
-  
+
   try {
     const sighting = await Sighting.findById(id);
     if (!sighting) {
       return res.status(404).json({ message: "Sighting not found" });
     }
-    // res.status(200).json(sighting);
-    res.render('detail', {sighting: sighting});
+
+    // Render the detail page with the sighting data
+    res.render("detail", { sighting: sighting });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(400).json({ message: err.message });
   }
 };
-
 
 // Get a single sighting's comments (GET /sightings/:id)
 exports.getSightingComments = async (req, res) => {
@@ -73,18 +90,18 @@ exports.getSightingComments = async (req, res) => {
       return res.status(404).json({ message: "Sighting not found" });
     }
     const sightingComments = sighting.comments;
-    res.render("chat", {comments: sightingComments});
+
+    res.render("chat", { comments: sightingComments });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(400).json({ message: err.message });
   }
 };
 
 // Update the identification of a sighting (POST /sightings/:id/identification)
 exports.updateIdentification = async (req, res) => {
   const { id } = req.params;
-  const {
-    idCommonName, idScientificName, idDescription, idLink, idStatus
-  } = req.body;
+  const { idCommonName, idScientificName, idDescription, idLink, idStatus } =
+    req.body;
   try {
     const sighting = await Sighting.findById(id);
     if (!sighting) {
