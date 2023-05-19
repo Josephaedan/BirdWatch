@@ -30,7 +30,7 @@ To run the application locally, follow these steps:
 
 1. Ensure you have [Node.js](https://nodejs.org/en/download) and [MongoDB](https://www.mongodb.com/docs/manual/administration/install-community/) installed on your machine
 2. Ensure MongoDB is running on your machine. More instructions can be found to run MongoDB on your platform can be found [here](https://www.mongodb.com/docs/manual/administration/install-community/)
-3. Open the directory `/solution` in your terminal: `cd solution`.  This is the root directory of the project. Alternatively, you may clone the repository to your machine: `git clone https://github.com/Josephaedan/BirdWatch.git`
+3. Clone the repository to your machine: `git clone https://github.com/Josephaedan/BirdWatch.git`
 4. Install dependencies in the root directory: `npm install`
 5. BirdWatch uses environment variables to function which allows for customisation of the port that the server will run on, and the mongoDB server to connect to. This is done using a `.env` file to set the environment variables. Create a '.env' file in the root directory of the project and set the environment variables you would like to use. An example file '.env.example' has been provided for you to use as a template. The `.env` file should have a `PORT`, `MONGO_PORT` and `MONGO_URL`.
 6. Start the server: `npm run start`
